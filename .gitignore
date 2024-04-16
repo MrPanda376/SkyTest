@@ -1,3 +1,2 @@
 node_modules*
-old_version/config.json*
-test_version/config.json*
+config*
