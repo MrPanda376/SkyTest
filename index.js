@@ -5,7 +5,7 @@ const { altFindValue, altSearchNameInFile } = require('./old_version/altFunction
 const fs = require('fs');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-const Token = process.env.TOKEN;
+//const Token = process.env.TOKEN;
 
 client.once('ready', () => {
     console.log('Il bot è online!');
@@ -86,7 +86,7 @@ client.on('interactionCreate', async (interaction) => {
     }
 });
 
-client.login(Token);
+client.login(process.env.TOKEN);
 
 
 
