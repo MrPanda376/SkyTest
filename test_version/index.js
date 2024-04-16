@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits, Interaction, ModalSubmitInteraction, EmbedBuilder } = require("discord.js");
 const { token } = require('../config/config.json');
-const { saveDataToFile, searchNameInFile, findValue, sleep } = require('functions.js');
-const { altFindValue, altSearchNameInFile } = require('altFunction.js')
+const { saveDataToFile, searchNameInFile, findValue, sleep } = require('../test_version/functions');
+const { altFindValue, altSearchNameInFile } = require('../test_version/altFunction')
 const fs = require('fs');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -145,7 +145,7 @@ async function main_1_sell() {
         await saveDataToFile(outputFilePath);
 
         const filePath = 'output.txt';
-        const nameToSearch = "GRIFFIN_FEATHER"; // Oggetto da cercare
+        const nameToSearch = "STOCK_OF_STONKS"; // Oggetto da cercare
 
         const context = await searchNameInFile(filePath, nameToSearch);
 
