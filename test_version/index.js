@@ -81,7 +81,7 @@ client.on('interactionCreate', async (interaction) => {
         
         //channel_CMD.send({ embeds: [exampleEmbed] });
 
-        main_1_sell();
+        main();
     }
 });
 
@@ -137,7 +137,7 @@ const exampleEmbed = new EmbedBuilder()
 
 //FIX #1
 
-async function main_1_sell() {
+async function main() {
     while (true) {
         sellProgramStatus_1 = 'active';
 
