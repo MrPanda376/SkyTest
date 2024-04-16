@@ -3,10 +3,6 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { token, clientId, guildId } = require('../config/config.json');
 
-const TOKEN = process.env[token];
-const CLIENT_ID = process.env[clientId];
-const GUILD_ID = process.env[guildId];
-
 const commands = [
     new SlashCommandBuilder().setName("start-program-sell").setDescription('Fa partire il programma per vendere').toJSON(),
     new SlashCommandBuilder().setName('start-program-buy').setDescription('Fa partire il programma per comprare').toJSON(),
@@ -25,13 +21,13 @@ const commands = [
     new SlashCommandBuilder().setName("prova").setDescription('Per fare i test').toJSON(),
 ];
 
-const rest = new REST({ version: '9' }).setToken(TOKEN);
+const rest = new REST({ version: '9' }).setToken(token);
 
 (async () => {
   try {
     console.log('Inizio la registrazione dei comandi...');
 
-    await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commands });
+    await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
 
     console.log('Comandi registrati con successo!');
   } catch (error) {

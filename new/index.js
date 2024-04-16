@@ -5,7 +5,6 @@ const { altFindValue, altSearchNameInFile } = require('./altFunction')
 const fs = require('fs');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-const TOKEN = process.env[token];
 
 // Dichiarazione variabili
 // GENERALI
@@ -499,7 +498,7 @@ client.on('interactionCreate', async (interaction) => {
     };
 });
 
-client.login(TOKEN);
+client.login(token);
 
 // INSTANCE #1
 

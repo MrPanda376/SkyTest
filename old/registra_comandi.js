@@ -1,11 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { token, clientId, guildId } = require('./old_version/config.json');
-
-const TOKEN = process.env[token];
-const CLIENT_ID = process.env[clientId];
-const GUILD_ID = process.env[guildId];
+const { token, clientId, guildId } = require('../config/config.json');
 
 const commands = [
     new SlashCommandBuilder().setName("start-program-sell").setDescription('Fa partire il programma per vendere').toJSON(),
@@ -24,13 +20,13 @@ const commands = [
     new SlashCommandBuilder().setName('auto-save').setDescription('Impostazioni del salvataggio automatico').addStringOption(option => option.setName('time').setDescription('Ogni quanto tempo devono essere salvate le impostazioni (in ms)').setRequired(true)).toJSON(),
 ];
 
-const rest = new REST({ version: '9' }).setToken(TOKEN);
+const rest = new REST({ version: '9' }).setToken(token);
 
 (async () => {
   try {
     console.log('Inizio la registrazione dei comandi...');
 
-    await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commands });
+    await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
 
     console.log('Comandi registrati con successo!');
   } catch (error) {
