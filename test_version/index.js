@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits, Interaction, ModalSubmitInteraction, EmbedBuilder } = require("discord.js");
 const { token } = require('../config/config.json');
-const { saveDataToFile, searchNameInFile, findValue, sleep } = require('functions');
-const { altFindValue, altSearchNameInFile } = require('altFunction')
+const { saveDataToFile, searchNameInFile, findValue, sleep } = require('functions.js');
+const { altFindValue, altSearchNameInFile } = require('altFunction.js')
 const fs = require('fs');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
