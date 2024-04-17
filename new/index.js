@@ -269,7 +269,7 @@ client.on('interactionCreate', async (interaction) => {
 
     const { commandName } = interaction;
     const options = interaction.options;
-    const channel_CMD = await client.channels.fetch('1143462629319393390');
+    const channel_CMD = await client.channels.fetch('1228448453672046722');
 
     if (commandName === 'start-program-sell') {
         await interaction.reply(`Programma per vendere avviato nell\'instance: ${selectedInstance}`);
@@ -522,7 +522,7 @@ async function main_1_sell() {
         const formattedValue = value.toLocaleString();
 
         // Invia il messaggio formattato su Discord
-        const channel = client.channels.cache.get('1143464592257843211'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
+        const channel = client.channels.cache.get('1228448453672046722'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
 
         let User = await client.users.fetch(UserId_1);
         
@@ -564,7 +564,7 @@ async function altMain_1_buy() {
         const formattedValue = value.toLocaleString();
 
         // Invia il messaggio formattato su Discord
-        const channel = client.channels.cache.get('1143464556933423134'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
+        const channel = client.channels.cache.get('1228448453672046722'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
 
         let User = await client.users.fetch(UserId_1);
         
@@ -608,7 +608,7 @@ async function main_2_sell() {
         const formattedValue = value.toLocaleString();
 
         // Invia il messaggio formattato su Discord
-        const channel = client.channels.cache.get('1143464647484256337'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
+        const channel = client.channels.cache.get('1228448453672046722'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
 
         let User = await client.users.fetch(UserId_2);
         
@@ -650,7 +650,7 @@ async function altMain_2_buy() {
         const formattedValue = value.toLocaleString();
 
         // Invia il messaggio formattato su Discord
-        const channel = client.channels.cache.get('1143464623572533268'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
+        const channel = client.channels.cache.get('1228448453672046722'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
 
         let User = await client.users.fetch(UserId_2);
         
@@ -694,7 +694,7 @@ async function main_3_sell() {
         const formattedValue = value.toLocaleString();
 
         // Invia il messaggio formattato su Discord
-        const channel = client.channels.cache.get('1143464705537617992'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
+        const channel = client.channels.cache.get('1228448453672046722'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
 
         let User = await client.users.fetch(UserId_3);
         
@@ -736,7 +736,7 @@ async function altMain_3_buy() {
         const formattedValue = value.toLocaleString();
 
         // Invia il messaggio formattato su Discord
-        const channel = client.channels.cache.get('1143464683291037726'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
+        const channel = client.channels.cache.get('1228448453672046722'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
 
         let User = await client.users.fetch(UserId_3);
         
