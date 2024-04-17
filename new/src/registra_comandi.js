@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const { token, clientId, guildId } = require('./config.json');
+const { token, clientId, guildId } = require('../config.json');
 
 const commands = [
   new SlashCommandBuilder().setName('start-program-sell').setDescription('Fa partire il programma per vendere').toJSON(),
