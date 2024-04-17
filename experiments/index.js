@@ -82,6 +82,9 @@ client.on('interactionCreate', async (interaction) => {
         //channel_CMD.send({ embeds: [exampleEmbed] });
 
         main();
+    } else if (commandName === 'save-now') {
+        await interaction.reply('Variabili salvate con successo!');
+        manualSave();
     }
 });
 
@@ -120,11 +123,69 @@ const exampleEmbed = new EmbedBuilder()
     .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
 */
 
+// PROVA PER VEDERE COME SALVARE UN ARRAY
+
+
+
+
+let prova = [];
+
+
+
+if (fs.existsSync('variables.json')) {
+    // Leggi i dati dal file
+    fs.readFile('variables.json', 'utf-8', (err, data) => {
+        if (err) {
+            console.error('Si è verificato un errore durante la lettura delle variabili:', err);
+          } else {
+            try {
+              const savedVariables = JSON.parse(data);
+
+              // Assegna i valori alle variabili
+              prova = savedVariables.prova;
+    
+              console.log('Variabili recuperate con successo.');
+
+              console.log(prova[0]);
+              console.log(prova[1]);
+              console.log(prova[2]);
+            } catch (error) {
+              console.error('Si è verificato un errore durante il parsing dei dati JSON:', error);
+            }
+        }
+    });
+} else {
+  console.log('Il file variables.json non esiste. Le variabili non sono state recuperate.');
+};
 
 
 
 
 
+
+
+
+
+
+async function manualSave() {
+    prova = [1, 2, 3];
+    // Salva tutte le variabili in un oggetto
+    const variablesToSave = {
+        prova,
+    };
+          
+    // Converti l'oggetto in una stringa JSON
+    const dataToSave = JSON.stringify(variablesToSave, null, 2);
+          
+    // Scrivi la stringa JSON in un file
+    fs.writeFileSync('variables.json', dataToSave, 'utf-8', (err) => {
+        if (err) {
+          console.error('Si è verificato un errore durante il salvataggio delle variabili:', err);
+      } else {
+          console.log('Variabili salvate con successo.');
+        }
+    });
+};
 
 
 
