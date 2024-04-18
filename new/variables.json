@@ -3,7 +3,7 @@
   "stopCommand": [
     false
   ],
-  "timeAutoSave": 10000,
+  "timeAutoSave": 900000,
   "toggleDM": [
     false
   ],

@@ -7,7 +7,7 @@ const fs = require('fs');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-const global = {
+let global = {
     "instance": 1,
     "stopCommand": [false],
     "timeAutoSave": 900000,
@@ -25,17 +25,11 @@ const global = {
         "time": [10000],
         "status": ['inactive'],
     },
-}
+};
 
-// Dichiarazione variabili
-// GENERALI
-let stopCommand_1 = false;
-let stopCommand_2 = false;
-let stopCommand_3 = false;
-let selectedInstance = '1';
-let timeAutoSave = 900000;
+
 // INSTANCE 1
-let itemBuyCollector_1 = 'N/D';
+
 let priceBuyCollector_1 = 1;
 let timeBuyCollector_1 = 10000;
 let itemSellCollector_1 = 'N/D';
@@ -74,56 +68,15 @@ client.once('ready', () => {
     // LETTURA VARIABILI
 
     // Verifica se il file variables.json esiste
-    if (fs.existsSync('variables.json')) {
+    if (fs.existsSync('../variables.json')) {
         // Leggi i dati dal file
-        fs.readFile('variables.json', 'utf-8', (err, data) => {
+        fs.readFile('../variables.json', 'utf-8', (err, data) => {
             if (err) {
                 console.error('Si è verificato un errore durante la lettura delle variabili:', err);
               } else {
                 try {
-                  const savedVariables = JSON.parse(data);
+                  global = JSON.parse(data);
 
-                  // Assegna i valori alle variabili
-                  // GENERALI
-                  stopCommand_1 = savedVariables.stopCommand_1;
-                  stopCommand_2 = savedVariables.stopCommand_2;
-                  stopCommand_3 = savedVariables.stopCommand_3;
-                  selectedInstance = savedVariables.selectedInstance;
-                  timeAutoSave = savedVariables.timeAutoSave;
-                  // INSTANCE 1
-                  itemBuyCollector_1 = savedVariables.itemBuyCollector_1;
-                  priceBuyCollector_1 = savedVariables.priceBuyCollector_1;
-                  timeBuyCollector_1 = savedVariables.timeBuyCollector_1;
-                  itemSellCollector_1 = savedVariables.itemSellCollector_1;
-                  priceSellCollector_1 = savedVariables.priceSellCollector_1;
-                  timeSellCollector_1 = savedVariables.timeSellCollector_1;
-                  toggleDM_1 = savedVariables.toggleDM_1;
-                  UserId_1 = savedVariables.UserId_1;
-                  buyProgramStatus_1 = savedVariables.buyProgramStatus_1;
-                  sellProgramStatus_1 = savedVariables.sellProgramStatus_1;
-                  // INSTANCE 2
-                  itemBuyCollector_2 = savedVariables.itemBuyCollector_2;
-                  priceBuyCollector_2 = savedVariables.priceBuyCollector_2;
-                  timeBuyCollector_2 = savedVariables.timeBuyCollector_2;
-                  itemSellCollector_2 = savedVariables.itemSellCollector_2;
-                  priceSellCollector_2 = savedVariables.priceSellCollector_2;
-                  timeSellCollector_2 = savedVariables.timeSellCollector_2;
-                  toggleDM_2 = savedVariables.toggleDM_2;
-                  UserId_2 = savedVariables.UserId_2;
-                  buyProgramStatus_2 = savedVariables.buyProgramStatus_2;
-                  sellProgramStatus_2 = savedVariables.sellProgramStatus_2;
-                  // INSTANCE 3
-                  itemBuyCollector_3 = savedVariables.itemBuyCollector_3;
-                  priceBuyCollector_3 = savedVariables.priceBuyCollector_3;
-                  timeBuyCollector_3 = savedVariables.timeBuyCollector_3;
-                  itemSellCollector_3 = savedVariables.itemSellCollector_3;
-                  priceSellCollector_3 = savedVariables.priceSellCollector_3;
-                  timeSellCollector_3 = savedVariables.timeSellCollector_3;
-                  toggleDM_3 = savedVariables.toggleDM_3;
-                  UserId_3 = savedVariables.UserId_3;
-                  buyProgramStatus_3 = savedVariables.buyProgramStatus_3;
-                  sellProgramStatus_3 = savedVariables.sellProgramStatus_3;
-        
                   console.log('Variabili recuperate con successo.');
                 } catch (error) {
                   console.error('Si è verificato un errore durante il parsing dei dati JSON:', error);
@@ -131,7 +84,7 @@ client.once('ready', () => {
             }
         });
     } else {
-      console.log('Il file variables.json non esiste. Le variabili non sono state recuperate.');
+        console.log('Il file variables.json non esiste. Le variabili non sono state recuperate.');
     };
     
     // ASPETTA 1 SECONDO PER FAR RECUPERARE LE VARIABILI
@@ -139,10 +92,10 @@ client.once('ready', () => {
         // RESUME DEI PROGRAMMI ATTIVI PRIMA DEL CRASH / SPEGNIMENTO
 
         if (buyProgramStatus_1 === 'active') {
-            stopCommand_1 = false;
+            stopCommand[0] = false;
             altMain_1_buy();
         } if (sellProgramStatus_1 === 'active') {
-            stopCommand_1 = false;
+            stopCommand[0] = false;
             main_1_sell();
         } if (buyProgramStatus_2 === 'active') {
             stopCommand_2 = false;
@@ -180,21 +133,21 @@ client.on('interactionCreate', async (interaction) => {
     const channel_CMD = await client.channels.fetch('1228448453672046722');
 
     if (commandName === 'start-program-sell') {
-        await interaction.reply(`Programma per vendere avviato nell\'instance: ${selectedInstance}`);
+        await interaction.reply(`Programma per vendere avviato nell\'instance: ${global.instance}`);
 
-        if (selectedInstance === '1') {
-            stopCommand_1 = false;
+        if (global.instance === 1) {
+            global.stopCommand[0] = false;
             main_1_sell(interaction).catch((error) => {
                 console.error('Si è verificato un errore durante l\'esecuzione:', error);
                 sellProgramStatus_1 = 'active';
             });
-        } else if (selectedInstance === '2') {
+        } else if (global.instance === '2') {
             stopCommand_2 = false;
             main_2_sell(interaction).catch((error) => {
                 console.error('Si è verificato un errore durante l\'esecuzione:', error);
                 sellProgramStatus_2 = 'active';
             });
-        } else if (selectedInstance === '3') {
+        } else if (global.instance === '3') {
             stopCommand_3 = false;
             main_3_sell(interaction).catch((error) => {
                 console.error('Si è verificato un errore durante l\'esecuzione:', error);
@@ -203,21 +156,21 @@ client.on('interactionCreate', async (interaction) => {
         }
 
     } else if (commandName === 'start-program-buy') {
-        await interaction.reply(`Programma per comprare avviato nell\'instance: ${selectedInstance}`);
+        await interaction.reply(`Programma per comprare avviato nell\'instance: ${global.instance}`);
 
-        if (selectedInstance === '1') {
-            stopCommand_1 = false;
+        if (global.instance === '1') {
+            stopCommand[0] = false;
             altMain_1_buy(interaction).catch((error) => {
                 console.error('Si è verificato un errore durante l\'esecuzione:', error);
                 buyProgramStatus_1 = 'active';
             });
-        } else if (selectedInstance === '2') {
+        } else if (global.instance === '2') {
             stopCommand_2 = false;
             altMain_2_buy(interaction).catch((error) => {
                 console.error('Si è verificato un errore durante l\'esecuzione:', error);
                 buyProgramStatus_2 = 'active';
             });
-        } else if (selectedInstance === '3') {
+        } else if (global.instance === '3') {
             stopCommand_3 = false;
             altMain_3_buy(interaction).catch((error) => {
                 console.error('Si è verificato un errore durante l\'esecuzione:', error);
@@ -232,17 +185,17 @@ client.on('interactionCreate', async (interaction) => {
         await interaction.reply(`Nuovo item impostato: ${itemSell}`);
         channel_CMD.send(`Nuovo prezzo impostato: ${priceSell}`);
         channel_CMD.send(`Nuovo tempo impostato: ${timeSell}`);
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${selectedInstance}`)
+        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`)
 
-        if (selectedInstance === '1') {
+        if (global.instance === '1') {
             itemSellCollector_1 = itemSell
             priceSellCollector_1 = priceSell
             timeSellCollector_1 = timeSell
-        } else if (selectedInstance === '2') {
+        } else if (global.instance === '2') {
             itemSellCollector_2 = itemSell
             priceSellCollector_2 = priceSell
             timeSellCollector_2 = timeSell
-        } else if (selectedInstance === '3') {
+        } else if (global.instance === '3') {
             itemSellCollector_3 = itemSell
             priceSellCollector_3 = priceSell
             timeSellCollector_3 = timeSell
@@ -255,17 +208,17 @@ client.on('interactionCreate', async (interaction) => {
         await interaction.reply(`Nuovo item impostato: ${itemBuy}`);
         channel_CMD.send(`Nuovo prezzo impostato: ${priceBuy}`);
         channel_CMD.send(`Nuovo tempo impostato: ${timeBuy}`);
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${selectedInstance}`)
+        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`)
 
-        if (selectedInstance === '1') {
-            itemBuyCollector_1 = itemBuy
+        if (global.instance === '1') {
+            global.item[1] = itemBuy
             priceBuyCollector_1 = priceBuy
             timeBuyCollector_1 = timeBuy
-        } else if (selectedInstance === '2') {
+        } else if (global.instance === '2') {
             itemBuyCollector_2 = itemBuy
             priceBuyCollector_2 = priceBuy
             timeBuyCollector_2 = timeBuy
-        } else if (selectedInstance === '3') {
+        } else if (global.instance === '3') {
             itemBuyCollector_3 = itemBuy
             priceBuyCollector_3 = priceBuy
             timeBuyCollector_3 = timeBuy
@@ -286,19 +239,19 @@ client.on('interactionCreate', async (interaction) => {
     } else if (commandName === 'info') {
         await interaction.reply(`---------- INFORMAZIONI GENERALI ----------`)
 
-        channel_CMD.send(`Instance selezionata: ${selectedInstance}`)
+        channel_CMD.send(`Instance selezionata: ${global.instance}`)
 
-        channel_CMD.send(`La variabile stopCommand_1 é impostata su: ${stopCommand_1}`)
+        channel_CMD.send(`La variabile stopCommand[0] é impostata su: ${stopCommand[0]}`)
         channel_CMD.send(`La variabile stopCommand_2 é impostata su: ${stopCommand_2}`)
         channel_CMD.send(`La variabile stopCommand_3 é impostata su: ${stopCommand_3}`)
 
-        channel_CMD.send(`Il tempo della funzione autoSave é impostato su: ${timeAutoSave}`)
+        channel_CMD.send(`Il tempo della funzione autoSave é impostato su: ${global.timeAutoSave}`)
 
         await sleep(1000)
 
         channel_CMD.send(`---------- INFORMAZIONI INSTANCE #1 ----------`)
 
-        channel_CMD.send(`L\'item del programma buy é impostato su: ${itemBuyCollector_1}`)
+        channel_CMD.send(`L\'item del programma buy é impostato su: ${global.item[1]}`)
         channel_CMD.send(`Il prezzo del programma buy é impostato su: ${priceBuyCollector_1}`)
         channel_CMD.send(`Il tempo del programma buy é impostato su: ${timeBuyCollector_1} ms`)
 
@@ -351,32 +304,32 @@ client.on('interactionCreate', async (interaction) => {
     } else if (commandName === 'toggle-dm') {
         getToggleDM = options.getString('boolean-value')
         await interaction.reply(`I messaggi DM sono impostati su: ${getToggleDM}`)
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${selectedInstance}`)
+        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`)
 
-        if (selectedInstance === '1') {
+        if (global.instance === '1') {
             toggleDM_1 = getToggleDM
-        } else if (selectedInstance === '2') {
+        } else if (global.instance === '2') {
             toggleDM_2 = getToggleDM
-        } else if (selectedInstance === '3') {
+        } else if (global.instance === '3') {
             toggleDM_3 = getToggleDM
         }
 
     } else if (commandName === 'set-dm') {
         getUserId = options.getString('id')
         await interaction.reply(`I messaggi DM verranno inviati a: ${getUserId}`)
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${selectedInstance}`)
+        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`)
 
-        if (selectedInstance === '1') {
+        if (global.instance === '1') {
             UserId_1 = getUserId
-        } else if (selectedInstance === '2') {
+        } else if (global.instance === '2') {
             UserId_2 = getUserId
-        } else if (selectedInstance === '3') {
+        } else if (global.instance === '3') {
             UserId_3 = getUserId
         }
 
     } else if (commandName === 'select') {
-        selectedInstance = options.getString('instance')
-        await interaction.reply(`Hai selezionato l\'instance numero: ${selectedInstance}`)
+        global.instance = options.getString('instance')
+        await interaction.reply(`Hai selezionato l\'instance numero: ${global.instance}`)
 
     } else if (commandName === 'save-now') {
         manualSave(global);
@@ -384,21 +337,21 @@ client.on('interactionCreate', async (interaction) => {
 
     } else if (commandName === 'auto-save') {
         timeSaveVariables = options.getString('time')
-        timeAutoSave = timeSaveVariables
-        await interaction.reply(`Le impostazioni verranno salvate ogni ${timeAutoSave} ms!`)
+        global.timeAutoSave = timeSaveVariables
+        await interaction.reply(`Le impostazioni verranno salvate ogni ${global.timeAutoSave} ms!`)
 
     } else if (commandName === 'stop-programs') {
-        await interaction.reply(`Tutti i programmi dell\'instance numero: ${selectedInstance} sono stati fermati!`);
+        await interaction.reply(`Tutti i programmi dell\'instance numero: ${global.instance} sono stati fermati!`);
         
-        if (selectedInstance === '1') {
-            stopCommand_1 = true;
+        if (global.instance === '1') {
+            stopCommand[0] = true;
             buyProgramStatus_1 = 'inactive';
             sellProgramStatus_1 = 'inactive';
-        } else if (selectedInstance === '2') {
+        } else if (global.instance === '2') {
             stopCommand_2 = true;
             buyProgramStatus_2 = 'inactive';
             sellProgramStatus_2 = 'inactive';
-        } else if (selectedInstance === '3') {
+        } else if (global.instance === '3') {
             stopCommand_3 = true;
             buyProgramStatus_3 = 'inactive';
             sellProgramStatus_3 = 'inactive';
@@ -413,14 +366,14 @@ client.login(token);
 // SELL
 
 async function main_1_sell() {
-    while (!stopCommand_1) {
+    while (!global.stopCommand[0]) {
         sellProgramStatus_1 = 'active';
 
-        const outputFilePath = 'output.txt';
+        const outputFilePath = '../output.txt';
         await saveDataToFile(outputFilePath);
 
-        const filePath = 'output.txt';
-        const nameToSearch = itemSellCollector_1; // Oggetto da cercare
+        const filePath = '../output.txt';
+        const nameToSearch = global.sell.item[0]; // Oggetto da cercare
 
         const context = await searchNameInFile(filePath, nameToSearch);
 
@@ -455,14 +408,14 @@ async function main_1_sell() {
 // BUY
 
 async function altMain_1_buy() {
-    while (!stopCommand_1) {
+    while (!global.stopCommand[0]) {
         buyProgramStatus_1 = 'active';
 
-        const outputFilePath = 'output.txt';
+        const outputFilePath = '../output.txt';
         await saveDataToFile(outputFilePath);
 
         const filePath = 'output.txt';
-        const nameToSearch = itemBuyCollector_1; // Oggetto da cercare
+        const nameToSearch = global.item[1]; // Oggetto da cercare
 
         const context = await altSearchNameInFile(filePath, nameToSearch);
 
