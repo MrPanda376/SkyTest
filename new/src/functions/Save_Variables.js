@@ -11,13 +11,13 @@ async function autoSave(timeAutoSave, variablesToSave) {
         // Scrivi la stringa JSON in un file
         fs.writeFileSync('../variables.json', dataToSave, 'utf-8', (err) => {
             if (err) {
-              console.error('Si è verificato un errore durante il salvataggio delle variabili:', err);
-          } else {
-              console.log('Variabili salvate con successo.');
-          }
+                console.error('Si è verificato un errore durante il salvataggio delle variabili:', err);
+            } else {
+                console.log('Variabili salvate con successo.');
+            }
         });
     await sleep(timeAutoSave);
-  };
+    };
 };
 
 // SALVATAGGIO MANUALE DELLE VARIABILI
@@ -29,9 +29,9 @@ async function manualSave(variablesToSave) {
     // Scrivi la stringa JSON in un file
     fs.writeFileSync('../variables.json', dataToSave, 'utf-8', (err) => {
         if (err) {
-          console.error('Si è verificato un errore durante il salvataggio delle variabili:', err);
-      } else {
-          console.log('Variabili salvate con successo.');
+            console.error('Si è verificato un errore durante il salvataggio delle variabili:', err);
+        } else {
+            console.log('Variabili salvate con successo.');
         }
     });
 };
@@ -39,4 +39,4 @@ async function manualSave(variablesToSave) {
 module.exports = {
     autoSave,
     manualSave
-  };
+};
