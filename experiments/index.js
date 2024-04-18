@@ -13,7 +13,11 @@ client.once('ready', () => {
 // COMANDI
 
 
-// MIGLIORE
+
+
+/*
+
+TEST EMBEDS
 
 const exampleEmbed = {
     color: 0xff7300,
@@ -64,31 +68,38 @@ const exampleEmbed = {
     },
 };
 
+*/
+
+
+
+
+
+
 /*
- * TEST OBJECTS
- *
- * Per vedere se si puo modificare un oggetto const (si può)
- * 
- *  const prova1 = {
- *      "test": true,
- *      "prova": false,
- *  }
- *
- *prova1.test = 1;
- *prova1.prova = 0;
- *prova1.ciao = 2;
- *
- *
- *console.log(prova1.test);
- *console.log(prova1.prova);
- *console.log(prova1.ciao);
- *
- */
+TEST OBJECTS
+
+Per vedere se si puo modificare un oggetto const (si può)
+
+const prova1 = {
+    "test": true,
+    "prova": false,
+}
+
+prova1.test = 1;
+prova1.prova = 0;
+prova1.ciao = 2;
+
+
+console.log(prova1.test);
+console.log(prova1.prova);
+console.log(prova1.ciao);
+
+*/
 
 
 
 
-
+// MAIN
 
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) return;
@@ -118,40 +129,13 @@ client.login(token);
 
 
 
-
-
-
 /*
 
-EMBED EXAMPLE
+COME SALVARE E RECUPERARE UN ARRAY
 
-const exampleEmbed = new EmbedBuilder()
-    .setColor(0xff7300)
-    .setTitle('Some title')
-    .setURL('https://discord.js.org/')
-    .setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
-    .setDescription('Some description here')
-    .setThumbnail('https://i.imgur.com/AfFp7pu.png')
-    .addFields(
-        { name: 'Regular field title', value: 'Some value here' },
-        { name: '\u200B', value: '\u200B' },
-        { name: 'Inline field title', value: 'Some value here', inline: true },
-        { name: 'Inline field title', value: 'Some value here', inline: true },
-    )
-    .addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
-    .setImage('https://i.imgur.com/AfFp7pu.png')
-    .setTimestamp()
-    .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
-*/
-
-// PROVA PER VEDERE COME SALVARE UN ARRAY
-
-
-
+LETTURA
 
 let prova = [];
-
-
 
 if (fs.existsSync('variables.json')) {
     // Leggi i dati dal file
@@ -175,14 +159,7 @@ if (fs.existsSync('variables.json')) {
   console.log('Il file variables.json non esiste. Le variabili non sono state recuperate.');
 };
 
-
-
-
-
-
-
-
-
+SALVATAGGIO
 
 async function manualSave() {
     prova = [1, 2, 3];
@@ -203,6 +180,8 @@ async function manualSave() {
         }
     });
 };
+
+*/
 
 
 
