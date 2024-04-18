@@ -1,37 +1,41 @@
 {
-  "stopCommand_1": false,
-  "stopCommand_2": false,
-  "stopCommand_3": false,
-  "selectedInstance": "1",
+  "instance": 1,
+  "stopCommand": [
+    false
+  ],
   "timeAutoSave": 10000,
-  "itemBuyCollector_1": "N/D",
-  "priceBuyCollector_1": 1,
-  "timeBuyCollector_1": 10000,
-  "itemSellCollector_1": "SEARING_STONE",
-  "priceSellCollector_1": "600000",
-  "timeSellCollector_1": "1800000",
-  "toggleDM_1": "true",
-  "UserId_1": "718011250839257099",
-  "buyProgramStatus_1": "active",
-  "sellProgramStatus_1": "active",
-  "itemBuyCollector_2": "N/D",
-  "priceBuyCollector_2": 1,
-  "timeBuyCollector_2": 10000,
-  "itemSellCollector_2": "N/D",
-  "priceSellCollector_2": 1,
-  "timeSellCollector_2": 10000,
-  "toggleDM_2": "false",
-  "UserId_2": "718011250839257099",
-  "buyProgramStatus_2": "inactive",
-  "sellProgramStatus_2": "inactive",
-  "itemBuyCollector_3": "N/D",
-  "priceBuyCollector_3": 1,
-  "timeBuyCollector_3": 10000,
-  "itemSellCollector_3": "N/D",
-  "priceSellCollector_3": 1,
-  "timeSellCollector_3": 10000,
-  "toggleDM_3": "false",
-  "UserId_3": "718011250839257099",
-  "buyProgramStatus_3": "inactive",
-  "sellProgramStatus_3": "inactive"
+  "toggleDM": [
+    false
+  ],
+  "userID": [
+    "718011250839257099"
+  ],
+  "buy": {
+    "item": [
+      "N/D"
+    ],
+    "price": [
+      1
+    ],
+    "time": [
+      10000
+    ],
+    "status": [
+      "inactive"
+    ]
+  },
+  "sell": {
+    "item": [
+      "N/D"
+    ],
+    "price": [
+      1
+    ],
+    "time": [
+      10000
+    ],
+    "status": [
+      "inactive"
+    ]
+  }
 }

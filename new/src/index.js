@@ -1,15 +1,18 @@
 const { Client, GatewayIntentBits, Interaction, ModalSubmitInteraction } = require("discord.js");
 const { token } = require('../config.json');
 const { saveDataToFile, searchNameInFile, findValue, sleep } = require('./functions/functions');
-const { altFindValue, altSearchNameInFile } = require('./functions/altFunction')
+const { altFindValue, altSearchNameInFile } = require('./functions/altFunction');
+const { autoSave, manualSave } = require('./functions/Save_Variables');
 const fs = require('fs');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 const global = {
-    "stopCommand": [false],
     "instance": 1,
+    "stopCommand": [false],
     "timeAutoSave": 900000,
+    "toggleDM": [false],
+    "userID": ['718011250839257099'],
     "buy": {
         "item": ['N/D'],
         "price": [1],
@@ -20,10 +23,8 @@ const global = {
         "item": ['N/D'],
         "price": [1],
         "time": [10000],
-        "status": [inactive],
+        "status": ['inactive'],
     },
-    "toggleDM": [false],
-    "userID": ['718011250839257099'],
 }
 
 // Dichiarazione variabili
@@ -172,7 +173,7 @@ client.once('ready', () => {
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) return;
 
-    autoSave() // Inizio salvataggio automatico delle variabili
+    autoSave(global.timeAutoSave, global); // Inizio salvataggio automatico delle variabili
 
     const { commandName } = interaction;
     const options = interaction.options;
@@ -378,7 +379,7 @@ client.on('interactionCreate', async (interaction) => {
         await interaction.reply(`Hai selezionato l\'instance numero: ${selectedInstance}`)
 
     } else if (commandName === 'save-now') {
-        manualSave()
+        manualSave(global);
         await interaction.reply(`Le impostazioni sono state salvate correttamente!`)
 
     } else if (commandName === 'auto-save') {
