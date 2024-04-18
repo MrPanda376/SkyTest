@@ -9,7 +9,6 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 let global = {
     "instance": 1,
-    "stopCommand": [false],
     "timeAutoSave": 900000,
     "toggleDM": [false],
     "userID": ['718011250839257099'],
@@ -17,12 +16,14 @@ let global = {
         "item": ['N/D'],
         "price": [1],
         "time": [10000],
+        "stopCommand": [false],
         "status": ['inactive'],
     },
     "sell": {
         "item": ['N/D'],
         "price": [1],
         "time": [10000],
+        "stopCommand": [false],
         "status": ['inactive'],
     },
 };
@@ -135,35 +136,25 @@ client.on('interactionCreate', async (interaction) => {
     if (commandName === 'start-program-sell') {
         await interaction.reply(`Programma per vendere avviato nell\'instance: ${global.instance}`);
 
-        if (global.instance === 1) {
-            global.stopCommand[0] = false;
-            main_1_sell(interaction).catch((error) => {
-                console.error('Si è verificato un errore durante l\'esecuzione:', error);
-                sellProgramStatus_1 = 'active';
-            });
-        } else if (global.instance === '2') {
-            stopCommand_2 = false;
-            main_2_sell(interaction).catch((error) => {
-                console.error('Si è verificato un errore durante l\'esecuzione:', error);
-                sellProgramStatus_2 = 'active';
-            });
-        } else if (global.instance === '3') {
-            stopCommand_3 = false;
-            main_3_sell(interaction).catch((error) => {
-                console.error('Si è verificato un errore durante l\'esecuzione:', error);
-                sellProgramStatus_3 = 'active';
-            });
-        }
+        global.stopCommand[global.instance - 1] = false;
 
+        main_1_sell(interaction).catch((error) => {
+            console.error('Si è verificato un errore durante l\'esecuzione:', error);
+            global.sell.status = 'active';
+        });
     } else if (commandName === 'start-program-buy') {
         await interaction.reply(`Programma per comprare avviato nell\'instance: ${global.instance}`);
 
+        global.stopCommand[global.instance - 1] = false;
+        
+        altMain_1_buy(interaction).catch((error) => {
+            console.error('Si è verificato un errore durante l\'esecuzione:', error);
+            buyProgramStatus_1 = 'active';
+        });
+
         if (global.instance === '1') {
             stopCommand[0] = false;
-            altMain_1_buy(interaction).catch((error) => {
-                console.error('Si è verificato un errore durante l\'esecuzione:', error);
-                buyProgramStatus_1 = 'active';
-            });
+            
         } else if (global.instance === '2') {
             stopCommand_2 = false;
             altMain_2_buy(interaction).catch((error) => {
