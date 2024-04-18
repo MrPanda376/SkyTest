@@ -65,6 +65,17 @@ const exampleEmbed = {
 };
 
 
+const prova1 = {
+    "test": true,
+    "prova": false,
+}
+
+
+console.log(prova1.test);
+console.log(prova1.prova);
+
+
+
 
 
 
