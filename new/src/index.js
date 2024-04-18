@@ -4,20 +4,24 @@ const { saveDataToFile, searchNameInFile, findValue, sleep } = require('./functi
 const { altFindValue, altSearchNameInFile } = require('./functions/altFunction');
 const { autoSave, manualSave } = require('./functions/Save_Variables');
 const fs = require('fs');
+const { channel } = require("diagnostics_channel");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 let global = {
     "instance": 1,
+    "Total_Instances": 1,
     "timeAutoSave": 900000,
     "toggleDM": [false],
     "userID": ['718011250839257099'],
+    "channel": '1228448453672046722',
     "buy": {
         "item": ['N/D'],
         "price": [1],
         "time": [10000],
         "stopCommand": [false],
         "status": ['inactive'],
+        "channel": ['1228448453672046722'],
     },
     "sell": {
         "item": ['N/D'],
@@ -25,43 +29,9 @@ let global = {
         "time": [10000],
         "stopCommand": [false],
         "status": ['inactive'],
+        "channel": ['1228448453672046722'],
     },
 };
-
-
-// INSTANCE 1
-
-let priceBuyCollector_1 = 1;
-let timeBuyCollector_1 = 10000;
-let itemSellCollector_1 = 'N/D';
-let priceSellCollector_1 = 1;
-let timeSellCollector_1 = 10000;
-let toggleDM_1 = 'false';
-let UserId_1 = '718011250839257099';
-let buyProgramStatus_1 = 'inactive';
-let sellProgramStatus_1 = 'inactive';
-// INSTANCE 2
-let itemBuyCollector_2 = 'N/D';
-let priceBuyCollector_2 = 1;
-let timeBuyCollector_2 = 10000;
-let itemSellCollector_2 = 'N/D';
-let priceSellCollector_2 = 1;
-let timeSellCollector_2 = 10000;
-let toggleDM_2 = 'false';
-let UserId_2 = '718011250839257099';
-let buyProgramStatus_2 = 'inactive';
-let sellProgramStatus_2 = 'inactive';
-// INSTANCE 3
-let itemBuyCollector_3 = 'N/D';
-let priceBuyCollector_3 = 1;
-let timeBuyCollector_3 = 10000;
-let itemSellCollector_3 = 'N/D';
-let priceSellCollector_3 = 1;
-let timeSellCollector_3 = 10000;
-let toggleDM_3 = 'false';
-let UserId_3 = '718011250839257099';
-let buyProgramStatus_3 = 'inactive';
-let sellProgramStatus_3 = 'inactive';
 
 client.once('ready', () => {
     console.log('Il bot è online!');
@@ -92,24 +62,13 @@ client.once('ready', () => {
     setTimeout(() => {
         // RESUME DEI PROGRAMMI ATTIVI PRIMA DEL CRASH / SPEGNIMENTO
 
-        if (buyProgramStatus_1 === 'active') {
-            stopCommand[0] = false;
-            altMain_1_buy();
-        } if (sellProgramStatus_1 === 'active') {
-            stopCommand[0] = false;
-            main_1_sell();
-        } if (buyProgramStatus_2 === 'active') {
-            stopCommand_2 = false;
-            altMain_2_buy();
-        } if (sellProgramStatus_2 === 'active') {
-            stopCommand_2 = false;
-            main_2_sell();
-        } if (buyProgramStatus_3 === 'active') {
-            stopCommand_3 = false;
-            altMain_3_buy();
-        } if (sellProgramStatus_3 === 'active') {
-            stopCommand_3 = false;
-            main_3_sell();
+        for (let i = 0; i < global.Total_Instances - 1; i++) {
+            if (global.buy.status === 'active') {
+
+            }
+            if (global.sell.status === 'active') {
+
+            }
         }
     }, 1000);
 });
@@ -131,7 +90,7 @@ client.on('interactionCreate', async (interaction) => {
 
     const { commandName } = interaction;
     const options = interaction.options;
-    const channel_CMD = await client.channels.fetch('1228448453672046722');
+    const channel_CMD = await client.channels.fetch(global.channel);
 
     if (commandName === 'start-program-sell') {
         await interaction.reply(`Programma per vendere avviato nell\'instance: ${global.instance}`);
@@ -142,6 +101,7 @@ client.on('interactionCreate', async (interaction) => {
             console.error('Si è verificato un errore durante l\'esecuzione:', error);
             global.sell.status = 'active';
         });
+
     } else if (commandName === 'start-program-buy') {
         await interaction.reply(`Programma per comprare avviato nell\'instance: ${global.instance}`);
 
@@ -152,68 +112,23 @@ client.on('interactionCreate', async (interaction) => {
             buyProgramStatus_1 = 'active';
         });
 
-        if (global.instance === '1') {
-            stopCommand[0] = false;
-            
-        } else if (global.instance === '2') {
-            stopCommand_2 = false;
-            altMain_2_buy(interaction).catch((error) => {
-                console.error('Si è verificato un errore durante l\'esecuzione:', error);
-                buyProgramStatus_2 = 'active';
-            });
-        } else if (global.instance === '3') {
-            stopCommand_3 = false;
-            altMain_3_buy(interaction).catch((error) => {
-                console.error('Si è verificato un errore durante l\'esecuzione:', error);
-                buyProgramStatus_3 = 'active';
-            });
-        }
-        
     } else if (commandName === 'set-program-sell') {
-        itemSell = options.getString('item');
-        priceSell = options.getString('price');
-        timeSell = options.getString('time');
-        await interaction.reply(`Nuovo item impostato: ${itemSell}`);
-        channel_CMD.send(`Nuovo prezzo impostato: ${priceSell}`);
-        channel_CMD.send(`Nuovo tempo impostato: ${timeSell}`);
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`)
-
-        if (global.instance === '1') {
-            itemSellCollector_1 = itemSell
-            priceSellCollector_1 = priceSell
-            timeSellCollector_1 = timeSell
-        } else if (global.instance === '2') {
-            itemSellCollector_2 = itemSell
-            priceSellCollector_2 = priceSell
-            timeSellCollector_2 = timeSell
-        } else if (global.instance === '3') {
-            itemSellCollector_3 = itemSell
-            priceSellCollector_3 = priceSell
-            timeSellCollector_3 = timeSell
-        }
+        global.sell.item = options.getString('item');
+        global.sell.price = parseInt(options.getString('price'));
+        global.sell.time = parseInt(options.getString('time'));
+        await interaction.reply(`Nuovo item impostato: ${global.sell.item}`);
+        channel_CMD.send(`Nuovo prezzo impostato: ${global.sell.price}`);
+        channel_CMD.send(`Nuovo tempo impostato: ${global.sell.time}`);
+        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
 
     } else if (commandName === 'set-program-buy') {
-        itemBuy = options.getString('item');
-        priceBuy = options.getString('price');
-        timeBuy = options.getString('time');
-        await interaction.reply(`Nuovo item impostato: ${itemBuy}`);
-        channel_CMD.send(`Nuovo prezzo impostato: ${priceBuy}`);
-        channel_CMD.send(`Nuovo tempo impostato: ${timeBuy}`);
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`)
-
-        if (global.instance === '1') {
-            global.item[1] = itemBuy
-            priceBuyCollector_1 = priceBuy
-            timeBuyCollector_1 = timeBuy
-        } else if (global.instance === '2') {
-            itemBuyCollector_2 = itemBuy
-            priceBuyCollector_2 = priceBuy
-            timeBuyCollector_2 = timeBuy
-        } else if (global.instance === '3') {
-            itemBuyCollector_3 = itemBuy
-            priceBuyCollector_3 = priceBuy
-            timeBuyCollector_3 = timeBuy
-        }
+        global.buy.item = options.getString('item');
+        global.buy.price = parseInt(options.getString('price'));
+        global.buy.time = parseInt(options.getString('time'));
+        await interaction.reply(`Nuovo item impostato: ${global.buy.item}`);
+        channel_CMD.send(`Nuovo prezzo impostato: ${global.buy.price}`);
+        channel_CMD.send(`Nuovo tempo impostato: ${global.buy.time}`);
+        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
 
     } else if (commandName === 'help') {
         await interaction.reply('Se non sai come far partire il bot segui i seguenti step:');
@@ -222,131 +137,102 @@ client.on('interactionCreate', async (interaction) => {
         channel_CMD.send('3-Imposta il prezzo e ogni quanto deve essere tracciato, ricordati che il tempo é in ms');
         channel_CMD.send('4-Utilizza i comandi /start-program-sell o /start-program-buy per far partire il bot');
         channel_CMD.send('5-Per fermare i programmi in esecuzione fai /stop-programs');
-        channel_CMD.send('6-Utilizza /toggle-dm per abilitare o disabilitare i dm con true o false')
-        channel_CMD.send('7-Per impostare il destinatario dei DM usa /set-dm ed inserisci l\'ID del destinatario')
-        channel_CMD.send('8-Usa /info per sapere informazioni sulle impostazioni attuali del bot')
-        channel_CMD.send('9-Usa /select, seguito dal numero dell\'instance per selezionare una instance')
+        channel_CMD.send('6-Utilizza /toggle-dm per abilitare o disabilitare i dm con true o false');
+        channel_CMD.send('7-Per impostare il destinatario dei DM usa /set-dm ed inserisci l\'ID del destinatario');
+        channel_CMD.send('8-Usa /info per sapere informazioni sulle impostazioni attuali del bot');
+        channel_CMD.send('9-Usa /select, seguito dal numero dell\'instance per selezionare una instance');
 
     } else if (commandName === 'info') {
-        await interaction.reply(`---------- INFORMAZIONI GENERALI ----------`)
+        await interaction.reply(`---------- INFORMAZIONI GENERALI ----------`);
 
-        channel_CMD.send(`Instance selezionata: ${global.instance}`)
+        channel_CMD.send(`Instance selezionata: ${global.instance}`);
 
-        channel_CMD.send(`La variabile stopCommand[0] é impostata su: ${stopCommand[0]}`)
-        channel_CMD.send(`La variabile stopCommand_2 é impostata su: ${stopCommand_2}`)
-        channel_CMD.send(`La variabile stopCommand_3 é impostata su: ${stopCommand_3}`)
+        channel_CMD.send(`La variabile stopCommand[0] é impostata su: ${stopCommand[0]}`);
+        channel_CMD.send(`La variabile stopCommand_2 é impostata su: ${stopCommand_2}`);
+        channel_CMD.send(`La variabile stopCommand_3 é impostata su: ${stopCommand_3}`);
 
-        channel_CMD.send(`Il tempo della funzione autoSave é impostato su: ${global.timeAutoSave}`)
+        channel_CMD.send(`Il tempo della funzione autoSave é impostato su: ${global.timeAutoSave}`);
 
-        await sleep(1000)
+        await sleep(1000);
 
-        channel_CMD.send(`---------- INFORMAZIONI INSTANCE #1 ----------`)
+        channel_CMD.send(`---------- INFORMAZIONI INSTANCE #1 ----------`);
 
-        channel_CMD.send(`L\'item del programma buy é impostato su: ${global.item[1]}`)
-        channel_CMD.send(`Il prezzo del programma buy é impostato su: ${priceBuyCollector_1}`)
-        channel_CMD.send(`Il tempo del programma buy é impostato su: ${timeBuyCollector_1} ms`)
+        channel_CMD.send(`L\'item del programma buy é impostato su: ${global.item[1]}`);
+        channel_CMD.send(`Il prezzo del programma buy é impostato su: ${priceBuyCollector_1}`);
+        channel_CMD.send(`Il tempo del programma buy é impostato su: ${timeBuyCollector_1} ms`);
 
-        channel_CMD.send(`L\'item del programma sell é impostato su: ${itemSellCollector_1}`)
-        channel_CMD.send(`Il prezzo del programma sell é impostato su: ${priceSellCollector_1}`)
-        channel_CMD.send(`Il tempo del programma sell é impostato su: ${timeSellCollector_1} ms`)
+        channel_CMD.send(`L\'item del programma sell é impostato su: ${itemSellCollector_1}`);
+        channel_CMD.send(`Il prezzo del programma sell é impostato su: ${priceSellCollector_1}`);
+        channel_CMD.send(`Il tempo del programma sell é impostato su: ${timeSellCollector_1} ms`);
 
-        channel_CMD.send(`I messaggi DM sono impostati su: ${toggleDM_1}`)
-        channel_CMD.send(`Il destinatario dei messaggi DM é impostato su: ${UserId_1}`)
+        channel_CMD.send(`I messaggi DM sono impostati su: ${toggleDM_1}`);
+        channel_CMD.send(`Il destinatario dei messaggi DM é impostato su: ${UserId_1}`);
 
-        channel_CMD.send(`Lo stato del programma buy é impostato su: ${buyProgramStatus_1}`)
-        channel_CMD.send(`Lo stato del programma sell é impostato su: ${sellProgramStatus_1}`)
+        channel_CMD.send(`Lo stato del programma buy é impostato su: ${buyProgramStatus_1}`);
+        channel_CMD.send(`Lo stato del programma sell é impostato su: ${sellProgramStatus_1}`);
 
-        await sleep(1000)
+        await sleep(1000);
 
-        channel_CMD.send(`---------- INFORMAZIONI INSTANCE #2 ----------`)
+        channel_CMD.send(`---------- INFORMAZIONI INSTANCE #2 ----------`);
 
-        channel_CMD.send(`L\'item del programma buy é impostato su: ${itemBuyCollector_2}`)
-        channel_CMD.send(`Il prezzo del programma buy é impostato su: ${priceBuyCollector_2}`)
-        channel_CMD.send(`Il tempo del programma buy é impostato su: ${timeBuyCollector_2} ms`)
+        channel_CMD.send(`L\'item del programma buy é impostato su: ${itemBuyCollector_2}`);
+        channel_CMD.send(`Il prezzo del programma buy é impostato su: ${priceBuyCollector_2}`);
+        channel_CMD.send(`Il tempo del programma buy é impostato su: ${timeBuyCollector_2} ms`);
 
-        channel_CMD.send(`L\'item del programma sell é impostato su: ${itemSellCollector_2}`)
-        channel_CMD.send(`Il prezzo del programma sell é impostato su: ${priceSellCollector_2}`)
-        channel_CMD.send(`Il tempo del programma sell é impostato su: ${timeSellCollector_2} ms`)
+        channel_CMD.send(`L\'item del programma sell é impostato su: ${itemSellCollector_2}`);
+        channel_CMD.send(`Il prezzo del programma sell é impostato su: ${priceSellCollector_2}`);
+        channel_CMD.send(`Il tempo del programma sell é impostato su: ${timeSellCollector_2} ms`);
 
-        channel_CMD.send(`I messaggi DM sono impostati su: ${toggleDM_2}`)
-        channel_CMD.send(`Il destinatario dei messaggi DM é impostato su: ${UserId_2}`)
+        channel_CMD.send(`I messaggi DM sono impostati su: ${toggleDM_2}`);
+        channel_CMD.send(`Il destinatario dei messaggi DM é impostato su: ${UserId_2}`);
 
-        channel_CMD.send(`Lo stato del programma buy é impostato su: ${buyProgramStatus_2}`)
-        channel_CMD.send(`Lo stato del programma sell é impostato su: ${sellProgramStatus_2}`)
+        channel_CMD.send(`Lo stato del programma buy é impostato su: ${buyProgramStatus_2}`);
+        channel_CMD.send(`Lo stato del programma sell é impostato su: ${sellProgramStatus_2}`);
 
-        await sleep(1000)
+        await sleep(1000);
 
-        channel_CMD.send(`---------- INFORMAZIONI INSTANCE #3 ----------`)
+        channel_CMD.send(`---------- INFORMAZIONI INSTANCE #3 ----------`);
 
-        channel_CMD.send(`L\'item del programma buy é impostato su: ${itemBuyCollector_3}`)
-        channel_CMD.send(`Il prezzo del programma buy é impostato su: ${priceBuyCollector_3}`)
-        channel_CMD.send(`Il tempo del programma buy é impostato su: ${timeBuyCollector_3} ms`)
+        channel_CMD.send(`L\'item del programma buy é impostato su: ${itemBuyCollector_3}`);
+        channel_CMD.send(`Il prezzo del programma buy é impostato su: ${priceBuyCollector_3}`);
+        channel_CMD.send(`Il tempo del programma buy é impostato su: ${timeBuyCollector_3} ms`);
 
         channel_CMD.send(`L\'item del programma sell é impostato su: ${itemSellCollector_3}`)
-        channel_CMD.send(`Il prezzo del programma sell é impostato su: ${priceSellCollector_3}`)
-        channel_CMD.send(`Il tempo del programma sell é impostato su: ${timeSellCollector_3} ms`)
+        channel_CMD.send(`Il prezzo del programma sell é impostato su: ${priceSellCollector_3}`);
+        channel_CMD.send(`Il tempo del programma sell é impostato su: ${timeSellCollector_3} ms`);
 
-        channel_CMD.send(`I messaggi DM sono impostati su: ${toggleDM_3}`)
-        channel_CMD.send(`Il destinatario dei messaggi DM é impostato su: ${UserId_3}`)
+        channel_CMD.send(`I messaggi DM sono impostati su: ${toggleDM_3}`);
+        channel_CMD.send(`Il destinatario dei messaggi DM é impostato su: ${UserId_3}`);
 
-        channel_CMD.send(`Lo stato del programma buy é impostato su: ${buyProgramStatus_3}`)
-        channel_CMD.send(`Lo stato del programma sell é impostato su: ${sellProgramStatus_3}`)
+        channel_CMD.send(`Lo stato del programma buy é impostato su: ${buyProgramStatus_3}`);
+        channel_CMD.send(`Lo stato del programma sell é impostato su: ${sellProgramStatus_3}`);
 
     } else if (commandName === 'toggle-dm') {
-        getToggleDM = options.getString('boolean-value')
-        await interaction.reply(`I messaggi DM sono impostati su: ${getToggleDM}`)
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`)
-
-        if (global.instance === '1') {
-            toggleDM_1 = getToggleDM
-        } else if (global.instance === '2') {
-            toggleDM_2 = getToggleDM
-        } else if (global.instance === '3') {
-            toggleDM_3 = getToggleDM
-        }
+        global.toggleDM = Boolean(options.getString('boolean-value'));
+        await interaction.reply(`I messaggi DM sono impostati su: ${global.toggleDM}`);
+        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
 
     } else if (commandName === 'set-dm') {
-        getUserId = options.getString('id')
-        await interaction.reply(`I messaggi DM verranno inviati a: ${getUserId}`)
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`)
-
-        if (global.instance === '1') {
-            UserId_1 = getUserId
-        } else if (global.instance === '2') {
-            UserId_2 = getUserId
-        } else if (global.instance === '3') {
-            UserId_3 = getUserId
-        }
+        global.userID = options.getString('id');
+        await interaction.reply(`I messaggi DM verranno inviati a: ${global.userID}`);
+        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
 
     } else if (commandName === 'select') {
-        global.instance = options.getString('instance')
-        await interaction.reply(`Hai selezionato l\'instance numero: ${global.instance}`)
+        global.instance = parseInt(options.getString('instance'));
+        await interaction.reply(`Hai selezionato l\'instance numero: ${global.instance}`);
 
     } else if (commandName === 'save-now') {
         manualSave(global);
-        await interaction.reply(`Le impostazioni sono state salvate correttamente!`)
+        await interaction.reply(`Le impostazioni sono state salvate correttamente!`);
 
     } else if (commandName === 'auto-save') {
-        timeSaveVariables = options.getString('time')
-        global.timeAutoSave = timeSaveVariables
-        await interaction.reply(`Le impostazioni verranno salvate ogni ${global.timeAutoSave} ms!`)
+        global.timeAutoSave = parseInt(options.getString('time'));
+        await interaction.reply(`Le impostazioni verranno salvate ogni ${global.timeAutoSave} ms!`);
 
     } else if (commandName === 'stop-programs') {
         await interaction.reply(`Tutti i programmi dell\'instance numero: ${global.instance} sono stati fermati!`);
         
-        if (global.instance === '1') {
-            stopCommand[0] = true;
-            buyProgramStatus_1 = 'inactive';
-            sellProgramStatus_1 = 'inactive';
-        } else if (global.instance === '2') {
-            stopCommand_2 = true;
-            buyProgramStatus_2 = 'inactive';
-            sellProgramStatus_2 = 'inactive';
-        } else if (global.instance === '3') {
-            stopCommand_3 = true;
-            buyProgramStatus_3 = 'inactive';
-            sellProgramStatus_3 = 'inactive';
-        }
+        global.stopCommand[global.instance] = true;
     };
 });
 
