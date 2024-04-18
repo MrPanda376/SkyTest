@@ -64,16 +64,26 @@ const exampleEmbed = {
     },
 };
 
-
-const prova1 = {
-    "test": true,
-    "prova": false,
-}
-
-
-console.log(prova1.test);
-console.log(prova1.prova);
-
+/*
+ * TEST OBJECTS
+ *
+ * Per vedere se si puo modificare un oggetto const (si può)
+ * 
+ *  const prova1 = {
+ *      "test": true,
+ *      "prova": false,
+ *  }
+ *
+ *prova1.test = 1;
+ *prova1.prova = 0;
+ *prova1.ciao = 2;
+ *
+ *
+ *console.log(prova1.test);
+ *console.log(prova1.prova);
+ *console.log(prova1.ciao);
+ *
+ */
 
 
 
@@ -156,10 +166,6 @@ if (fs.existsSync('variables.json')) {
               prova = savedVariables.prova;
     
               console.log('Variabili recuperate con successo.');
-
-              console.log(prova[0]);
-              console.log(prova[1]);
-              console.log(prova[2]);
             } catch (error) {
               console.error('Si è verificato un errore durante il parsing dei dati JSON:', error);
             }
