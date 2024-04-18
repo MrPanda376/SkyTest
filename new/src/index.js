@@ -6,6 +6,26 @@ const fs = require('fs');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
+const global = {
+    "stopCommand": [false],
+    "instance": 1,
+    "timeAutoSave": 900000,
+    "buy": {
+        "item": ['N/D'],
+        "price": [1],
+        "time": [10000],
+        "status": ['inactive'],
+    },
+    "sell": {
+        "item": ['N/D'],
+        "price": [1],
+        "time": [10000],
+        "status": [inactive],
+    },
+    "toggleDM": [false],
+    "userID": ['718011250839257099'],
+}
+
 // Dichiarazione variabili
 // GENERALI
 let stopCommand_1 = false;
