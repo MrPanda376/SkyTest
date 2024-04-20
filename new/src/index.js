@@ -198,10 +198,6 @@ client.on('interactionCreate', async (interaction) => {
 
 client.login(token);
 
-// INSTANCE #1
-
-// SELL
-
 async function Bazaar_Tracker(global) {
     let local = {};
     if (global.trackerType === 'buy') {
