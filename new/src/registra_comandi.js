@@ -7,18 +7,10 @@ const commands = [
     new SlashCommandBuilder()
         .setName('start_tracker')
         .setDescription('Fa partire il tracker')
-        .addStringOption(option => option
-            .setName('type')
-            .setDescription('Inserisci il tipo di tracker (buy/sell)')
-            .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
         .setName('stop_tracker')
         .setDescription('Ferma il tracker')
-        .addStringOption(option => option
-            .setName('type')
-            .setDescription('Inserisci il tipo di tracker (buy/sell)')
-            .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
         .setName('set_tracker')
@@ -34,10 +26,6 @@ const commands = [
         .addStringOption(option => option
             .setName('time')
             .setDescription('Inserisci ogni quanto tempo il tracker deve verificare il prezzo (in ms)')
-            .setRequired(true))
-        .addStringOption(option => option
-            .setName('type')
-            .setDescription('Inserisci il tipo di tracker (buy/sell)')
             .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
@@ -62,6 +50,10 @@ const commands = [
         .addStringOption(option => option
             .setName('instance')
             .setDescription('Inserisci l\'instance')
+            .setRequired(true))
+        .addStringOption(option => option
+            .setName('type')
+            .setDescription('Inserisci il tipo di instance (buy/sell)')
             .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()

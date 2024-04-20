@@ -1,13 +1,20 @@
 {
   "instance": 0,
   "Total_Instances": 1,
+  "trackerType": "",
   "stopCommand": 0,
   "timeAutoSave": 10000,
   "channel": "1228448453672046722",
   "buy": {
-    "item": "4",
-    "price": 1,
-    "time": 1,
+    "item": [
+      "N/D"
+    ],
+    "price": [
+      1
+    ],
+    "time": [
+      10000
+    ],
     "status": [
       0
     ],
@@ -25,9 +32,15 @@
     ]
   },
   "sell": {
-    "item": "d",
-    "price": 1,
-    "time": 1,
+    "item": [
+      "N/D"
+    ],
+    "price": [
+      1
+    ],
+    "time": [
+      10000
+    ],
     "status": [
       0
     ],
@@ -43,6 +56,5 @@
     "ID": [
       1
     ]
-  },
-  "trackerType": "buy"
+  }
 }
