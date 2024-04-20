@@ -5,87 +5,79 @@ const { token, clientId, guildId } = require('../config.json');
 
 const commands = [
     new SlashCommandBuilder()
-        .setName('start-program-sell')
-        .setDescription('Fa partire il programma per vendere')
+        .setName('start_tracker')
+        .setDescription('Fa partire il tracker')
+        .addStringOption(option => option
+            .setName('type')
+            .setDescription('Inserisci il tipo di tracker (buy/sell)')
+            .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
-        .setName('start-program-buy')
-        .setDescription('Fa partire il programma per comprare')
+        .setName('stop_tracker')
+        .setDescription('Ferma il tracker')
+        .addStringOption(option => option
+            .setName('type')
+            .setDescription('Inserisci il tipo di tracker (buy/sell)')
+            .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
-        .setName('stop-programs')
-        .setDescription('Ferma tutti i programmi in esecuzione')
-        .toJSON(),
-    new SlashCommandBuilder()
-        .setName('set-program-sell')
-        .setDescription('Impostazioni del programma per vendere')
+        .setName('set_tracker')
+        .setDescription('Impostazioni dei tracker')
         .addStringOption(option => option
             .setName('item')
-            .setDescription('Inserisci l\'item da impostare')
+            .setDescription('Inserisci l\'item')
             .setRequired(true))
         .addStringOption(option => option
             .setName('price')
-            .setDescription('Inserisci il prezzo per vendere')
+            .setDescription('Inserisci il prezzo')
             .setRequired(true))
         .addStringOption(option => option
             .setName('time')
-            .setDescription('Inserisci ogni quanto tempo il programma deve verificare il prezzo (in ms)')
-            .setRequired(true))
-        .toJSON(),
-    new SlashCommandBuilder()
-        .setName('set-program-buy')
-        .setDescription('Impostazioni del programma per comprare')
-        .addStringOption(option => option
-            .setName('item')
-            .setDescription('Inserisci l\'item da impostare')
+            .setDescription('Inserisci ogni quanto tempo il tracker deve verificare il prezzo (in ms)')
             .setRequired(true))
         .addStringOption(option => option
-            .setName('price')
-            .setDescription('Inserisci il prezzo per comprare')
-            .setRequired(true))
-        .addStringOption(option => option
-            .setName('time')
-            .setDescription('Inserisci ogni quanto tempo il programma deve verificare il prezzo (in ms)')
+            .setName('type')
+            .setDescription('Inserisci il tipo di tracker (buy/sell)')
             .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
         .setName('help')
-        .setDescription('Informazioni utili per il funzionamento del bot')
+        .setDescription('Mostra la guida del bot')
         .toJSON(),
     new SlashCommandBuilder()
         .setName('info')
         .setDescription('Visualizza tutte le impostazioni attuali del bot')
         .toJSON(),
     new SlashCommandBuilder()
-        .setName('toggle-dm')
-        .setDescription('Attiva o Disattiva i DM, NON toccare se non sei autorizzato')
+        .setName('toggle_dm')
+        .setDescription('Attiva o Disattiva i DM')
         .addStringOption(option => option
-            .setName('boolean-value')
-            .setDescription('Inserisci true o false, se metti altro vuol dire che NON sei autorizzato ad usare questo comando')
+            .setName('boolean_value')
+            .setDescription('Inserisci true o false')
             .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
         .setName('select')
-        .setDescription('Imposta su quale instance si vuole usare il bot')
+        .setDescription('Imposta l\'instance del bot')
         .addStringOption(option => option
             .setName('instance')
-            .setDescription('Inserisci 1, 2 o 3 in base a quale instance vuoi usare')
+            .setDescription('Inserisci l\'instance')
             .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
-        .setName('set-dm')
+        .setName('set_dm')
         .setDescription('Impostazioni dei DM')
         .addStringOption(option => option
             .setName('id')
-            .setDescription('Inserisci \'ID della persona che vuole ricevere i DM')
+            .setDescription('Inserisci \'ID del destinatario dei DM')
             .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
-        .setName('save-now')
+        .setName('save_now')
         .setDescription('Salva tutte le impostazioni del bot')
         .toJSON(),
     new SlashCommandBuilder()
-        .setName('auto-save')
+        .setName('auto_save')
         .setDescription('Impostazioni del salvataggio automatico')
         .addStringOption(option => option
             .setName('time')
