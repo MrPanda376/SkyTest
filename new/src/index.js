@@ -19,7 +19,7 @@ let global = {
         "item": ['N/D'],
         "price": [1],
         "time": [10000],
-        "status": [0],
+        "status": ['off'],
         "toggleDM": [false],
         "userID": ['718011250839257099'],
         "channel": ['1228448453672046722'],
@@ -29,7 +29,7 @@ let global = {
         "item": ['N/D'],
         "price": [1],
         "time": [10000],
-        "status": [0],
+        "status": ['off'],
         "toggleDM": [false],
         "userID": ['718011250839257099'],
         "channel": ['1228448453672046722'],
@@ -88,9 +88,9 @@ client.on('interactionCreate', async (interaction) => {
             await interaction.reply(`Il tracker in modalitá: ${global.trackerType} é stato avviato nell\'instance: ${global.instance + 1}`);
 
             if (global.trackerType === 'buy') {
-                global.buy.status[global.instance] = 1;
+                global.buy.status[global.instance] = 'on';
             } else {
-                global.sell.status[global.instance] = 1;
+                global.sell.status[global.instance] = 'on';
             }
 
             try {
@@ -183,8 +183,12 @@ client.on('interactionCreate', async (interaction) => {
         case 'stop_tracker':
             if (trackerType === 'buy') {
                 global.stopCommand = global.buy.ID[global.instance];
+                
+                global.buy.status[global.instance] = 'off';
             } else {
                 global.stopCommand = global.sell.ID[global.instance];
+                
+                global.sell.status[global.instance] = 'off';
             }
 
             await interaction.reply(`Il tracker nell\'instance: ${global.instance + 1} di tipo: ${global.trackerType} é stato fermato!`);
