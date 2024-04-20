@@ -82,6 +82,10 @@ client.on('interactionCreate', async (interaction) => {
     const options = interaction.options;
     const channel_CMD = await client.channels.fetch(global.channel);
 
+    switch (commandName) {
+        case 'start-program-sell':
+            
+    }
     if (commandName === 'start-program-sell') {
         await interaction.reply(`Programma per vendere avviato nell\'instance: ${global.instance + 1}`);
 
@@ -211,7 +215,7 @@ client.on('interactionCreate', async (interaction) => {
 
     } else if (commandName === 'stop-programs') {
         await interaction.reply(`Tutti i programmi dell\'instance numero: ${global.instance + 1} sono stati fermati!`);
-        
+
         if (trackerType === 'buy') {
             global.stopCommand = global.buy.ID[global.instance];
         } else {
