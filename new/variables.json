@@ -5,15 +5,9 @@
   "timeAutoSave": 10000,
   "channel": "1228448453672046722",
   "buy": {
-    "item": [
-      "N/D"
-    ],
-    "price": [
-      1
-    ],
-    "time": [
-      10000
-    ],
+    "item": "4",
+    "price": 1,
+    "time": 1,
     "status": [
       0
     ],
@@ -31,15 +25,9 @@
     ]
   },
   "sell": {
-    "item": [
-      "N/D"
-    ],
-    "price": [
-      1
-    ],
-    "time": [
-      10000
-    ],
+    "item": "d",
+    "price": 1,
+    "time": 1,
     "status": [
       0
     ],
@@ -55,5 +43,6 @@
     "ID": [
       1
     ]
-  }
+  },
+  "trackerType": "buy"
 }

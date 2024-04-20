@@ -13,7 +13,7 @@ let global = {
     "Total_Instances": 1,
     "trackerType": '',
     "stopCommand": 0,
-    "timeAutoSave": 900000,
+    "timeAutoSave": 10000,
     "channel": '1228448453672046722',
     "buy": {
         "item": ['N/D'],
@@ -84,41 +84,51 @@ client.on('interactionCreate', async (interaction) => {
     const channel_CMD = await client.channels.fetch(global.channel);
 
     switch (commandName) {
-        case 'start-program-sell':
+        case 'start_tracker':
+            if (options.getString('type') === 'buy' || options.getString('type') === 'sell') {
+                global.trackerType = options.getString('type');
 
+                await interaction.reply(`Il tracker in modalitá: ${global.trackerType} é stato avviato nell\'instance: ${global.instance + 1}`);
+
+                try {
+                    Bazaar_Tracker(global);
+                } catch (error) {
+                    console.error('Si è verificato un errore durante l\'esecuzione:', error);
+                }
+            } else {
+                await interaction.reply('Il parametro inserito non é valido');
+            }
+            break;
+        case 'set_tracker':
+            if (options.getString('type') === 'buy' || options.getString('type') === 'sell') {
+                global.trackerType = options.getString('type');
+
+                if (global.trackerType === 'buy') {
+                    global.buy.item = options.getString('item');
+                    global.buy.price = parseInt(options.getString('price'));
+                    global.buy.time = parseInt(options.getString('time'));
+
+                    await interaction.reply(`Nuovo item impostato: ${global.buy.item}`);
+                    channel_CMD.send(`Nuovo prezzo impostato: ${global.buy.price}`);
+                    channel_CMD.send(`Nuovo tempo impostato: ${global.buy.time}`);
+                } else {
+                    global.sell.item = options.getString('item');
+                    global.sell.price = parseInt(options.getString('price'));
+                    global.sell.time = parseInt(options.getString('time'));
+
+                    await interaction.reply(`Nuovo item impostato: ${global.sell.item}`);
+                    channel_CMD.send(`Nuovo prezzo impostato: ${global.sell.price}`);
+                    channel_CMD.send(`Nuovo tempo impostato: ${global.sell.time}`);
+                }
+                channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1} tipo: ${global.trackerType}`);
+            } else {
+                await interaction.reply('Il parametro inserito non é valido');
+            }
+            break;
     }
-    if (commandName === 'start-program-sell') {
-        await interaction.reply(`Programma per vendere avviato nell\'instance: ${global.instance + 1}`);
-
-        global.trackerType = 'sell';
-
-        Bazaar_Tracker(global);
-
-    } else if (commandName === 'start-program-buy') {
-        await interaction.reply(`Programma per comprare avviato nell\'instance: ${global.instance + 1}`);
-
-        global.trackerType = 'buy';
-
-        Bazaar_Tracker(global);
-
-    } else if (commandName === 'set-program-sell') {
-        global.sell.item = options.getString('item');
-        global.sell.price = parseInt(options.getString('price'));
-        global.sell.time = parseInt(options.getString('time'));
-        await interaction.reply(`Nuovo item impostato: ${global.sell.item}`);
-        channel_CMD.send(`Nuovo prezzo impostato: ${global.sell.price}`);
-        channel_CMD.send(`Nuovo tempo impostato: ${global.sell.time}`);
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1}`);
-
-    } else if (commandName === 'set-program-buy') {
-        global.buy.item = options.getString('item');
-        global.buy.price = parseInt(options.getString('price'));
-        global.buy.time = parseInt(options.getString('time'));
-        await interaction.reply(`Nuovo item impostato: ${global.buy.item}`);
-        channel_CMD.send(`Nuovo prezzo impostato: ${global.buy.price}`);
-        channel_CMD.send(`Nuovo tempo impostato: ${global.buy.time}`);
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1}`);
-
+    
+    if (commandName === 'set-program-sell'){
+    
     } else if (commandName === 'help') {
         await interaction.reply('Se non sai come far partire il bot segui i seguenti step:');
         channel_CMD.send('1-Imposta il bot con le informazioni dell\'item da tracciare usando /set-program-sell o /set-program-buy');
