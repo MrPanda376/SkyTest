@@ -11,7 +11,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 let global = {
     "instance": 0, // Ricordarsi che é sempre instance - 1 pk stiamo lavorando con gli array
     "Total_Instances": 1,
-    "trackerType": '',
+    "trackerType": 'buy',
     "stopCommand": 0,
     "timeAutoSave": 10000,
     "channel": '1228448453672046722',
@@ -62,7 +62,7 @@ client.once('ready', () => {
         console.log('Il file variables.json non esiste. Le variabili non sono state recuperate.');
     }
     // Resume of the programs that were active before the bot crashed/stopped
-    for (let i = 0; i <= global.Total_Instances; i++) {
+    for (let i = 0; i < global.Total_Instances; i++) {
         if (global.buy.status) {
 
         }
@@ -203,6 +203,7 @@ async function Bazaar_Tracker(global) {
     if (global.trackerType === 'buy') {
         local = {
             "instance": global.instance, // The instance of the program
+            "trackerType": global.trackerType, // The type of the tracker (buy/sell)
             "filePath": '../output.txt', // The file path of the API's response
             "valueToFind": 'pricePerUnit', // Value searched in the output file to find the price of the item
             "item": global.buy.item[global.instance], // Item tracked
@@ -216,6 +217,7 @@ async function Bazaar_Tracker(global) {
     } else {
         local = {
             "instance": global.instance,
+            "trackerType": global.trackerType,
             "filePath": '../output.txt',
             "valueToFind": 'pricePerUnit',
             "item": global.sell.item[global.instance],
@@ -242,16 +244,32 @@ async function Bazaar_Tracker(global) {
         const formattedPrice = price.toLocaleString();
         const formattedSetPrice = setPrice.toLocaleString();
 
-        if (price > setPrice) {
-            channel.send(`${local.item} - VENDI TUTTO ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo conveniente
-            if (local.toggleDM === 'true') {
-                user.send(`${local.item} - VENDI TUTTO ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`) // Messaggio nei DM
-                    .catch(error => {
-                        console.error('Errore durante l\'invio del messaggio nei DM:', error); // Errore durante l'invio del messaggio nei DM
-                    })
+        if (local.trackerType === 'buy') {
+            if (price < setPrice) {
+                channel.send(`${local.item} - COMPRA ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo conveniente
+                if (local.toggleDM === 'true') {
+                    user.send(`${local.item} - COMPRA ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`) // Messaggio nei DM
+                        .catch(error => {
+                            console.error('Errore durante l\'invio del messaggio nei DM:', error); // Errore durante l'invio del messaggio nei DM
+                        }
+                    )
+                }
+            } else {
+                channel.send(`${local.item} - Non comprare - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo NON conveniente
             }
         } else {
-            channel.send(`${local.item} - Non vendere - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo NON conveniente
+            if (price > setPrice) {
+                channel.send(`${local.item} - VENDI TUTTO ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo conveniente
+                if (local.toggleDM === 'true') {
+                    user.send(`${local.item} - VENDI TUTTO ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`) // Messaggio nei DM
+                        .catch(error => {
+                            console.error('Errore durante l\'invio del messaggio nei DM:', error); // Errore durante l'invio del messaggio nei DM
+                        }
+                    )
+                }
+            } else {
+                channel.send(`${local.item} - Non vendere - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo NON conveniente
+            }
         }
 
         await sleep(local.time); // Ritardo tra le esecuzioni
