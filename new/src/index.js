@@ -62,10 +62,10 @@ client.once('ready', () => {
     }
     // Resume of the programs that were active before the bot crashed/stopped
     for (let i = 0; i <= global.Total_Instances; i++) {
-        if (global.buy.status === 'active') {
+        if (global.buy.status) {
 
         }
-        if (global.sell.status === 'active') {
+        if (global.sell.status) {
 
         }
     }
@@ -83,17 +83,13 @@ client.on('interactionCreate', async (interaction) => {
     const channel_CMD = await client.channels.fetch(global.channel);
 
     if (commandName === 'start-program-sell') {
-        await interaction.reply(`Programma per vendere avviato nell\'instance: ${global.instance}`);
-
-        global.stopCommand[global.instance] = false;
+        await interaction.reply(`Programma per vendere avviato nell\'instance: ${global.instance + 1}`);
 
         Bazaar_Tracker(global, 'sell');
 
     } else if (commandName === 'start-program-buy') {
-        await interaction.reply(`Programma per comprare avviato nell\'instance: ${global.instance}`);
+        await interaction.reply(`Programma per comprare avviato nell\'instance: ${global.instance + 1}`);
 
-        global.stopCommand[global.instance] = false;
-        
         Bazaar_Tracker(global, 'buy');
 
     } else if (commandName === 'set-program-sell') {
@@ -103,7 +99,7 @@ client.on('interactionCreate', async (interaction) => {
         await interaction.reply(`Nuovo item impostato: ${global.sell.item}`);
         channel_CMD.send(`Nuovo prezzo impostato: ${global.sell.price}`);
         channel_CMD.send(`Nuovo tempo impostato: ${global.sell.time}`);
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
+        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1}`);
 
     } else if (commandName === 'set-program-buy') {
         global.buy.item = options.getString('item');
@@ -112,7 +108,7 @@ client.on('interactionCreate', async (interaction) => {
         await interaction.reply(`Nuovo item impostato: ${global.buy.item}`);
         channel_CMD.send(`Nuovo prezzo impostato: ${global.buy.price}`);
         channel_CMD.send(`Nuovo tempo impostato: ${global.buy.time}`);
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
+        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1}`);
 
     } else if (commandName === 'help') {
         await interaction.reply('Se non sai come far partire il bot segui i seguenti step:');
@@ -194,7 +190,7 @@ client.on('interactionCreate', async (interaction) => {
     } else if (commandName === 'toggle-dm') {
         global.toggleDM = Boolean(options.getString('boolean-value'));
         await interaction.reply(`I messaggi DM sono impostati su: ${global.toggleDM}`);
-        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
+        channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1}`);
 
     } else if (commandName === 'set-dm') {
         global.userID = options.getString('id');
@@ -202,8 +198,8 @@ client.on('interactionCreate', async (interaction) => {
         channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
 
     } else if (commandName === 'select') {
-        global.instance = parseInt(options.getString('instance'));
-        await interaction.reply(`Hai selezionato l\'instance numero: ${global.instance}`);
+        global.instance = parseInt(options.getString('instance')) - 1;
+        await interaction.reply(`Hai selezionato l\'instance numero: ${global.instance + 1}`);
 
     } else if (commandName === 'save-now') {
         manualSave(global);
@@ -214,9 +210,13 @@ client.on('interactionCreate', async (interaction) => {
         await interaction.reply(`Le impostazioni verranno salvate ogni ${global.timeAutoSave} ms!`);
 
     } else if (commandName === 'stop-programs') {
-        await interaction.reply(`Tutti i programmi dell\'instance numero: ${global.instance} sono stati fermati!`);
+        await interaction.reply(`Tutti i programmi dell\'instance numero: ${global.instance + 1} sono stati fermati!`);
         
-        global.stopCommand[global.instance] = true;
+        if (trackerType === 'buy') {
+            global.stopCommand = global.buy.ID[global.instance];
+        } else {
+            global.stopCommand = global.sell.ID[global.instance];
+        }
     };
 });
 
