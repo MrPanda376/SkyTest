@@ -11,6 +11,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 let global = {
     "instance": 0, // Ricordarsi che é sempre instance - 1 pk stiamo lavorando con gli array
     "Total_Instances": 1,
+    "trackerType": '',
     "stopCommand": 0,
     "timeAutoSave": 900000,
     "channel": '1228448453672046722',
@@ -84,17 +85,21 @@ client.on('interactionCreate', async (interaction) => {
 
     switch (commandName) {
         case 'start-program-sell':
-            
+
     }
     if (commandName === 'start-program-sell') {
         await interaction.reply(`Programma per vendere avviato nell\'instance: ${global.instance + 1}`);
 
-        Bazaar_Tracker(global, 'sell');
+        global.trackerType = 'sell';
+
+        Bazaar_Tracker(global);
 
     } else if (commandName === 'start-program-buy') {
         await interaction.reply(`Programma per comprare avviato nell\'instance: ${global.instance + 1}`);
 
-        Bazaar_Tracker(global, 'buy');
+        global.trackerType = 'buy';
+
+        Bazaar_Tracker(global);
 
     } else if (commandName === 'set-program-sell') {
         global.sell.item = options.getString('item');
@@ -230,9 +235,9 @@ client.login(token);
 
 // SELL
 
-async function Bazaar_Tracker(global, trackerType) {
+async function Bazaar_Tracker(global) {
     let local = {};
-    if (trackerType === 'buy') {
+    if (global.trackerType === 'buy') {
         local = {
             "instance": global.instance, // The instance of the program
             "filePath": '../output.txt', // The file path of the API's response
