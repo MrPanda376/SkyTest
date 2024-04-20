@@ -18,7 +18,7 @@ let global = {
         "item": ['N/D'],
         "price": [1],
         "time": [10000],
-        "status": ['inactive'],
+        "status": [0],
         "toggleDM": [false],
         "userID": ['718011250839257099'],
         "channel": ['1228448453672046722'],
@@ -28,7 +28,7 @@ let global = {
         "item": ['N/D'],
         "price": [1],
         "time": [10000],
-        "status": ['inactive'],
+        "status": [0],
         "toggleDM": [false],
         "userID": ['718011250839257099'],
         "channel": ['1228448453672046722'],
@@ -47,42 +47,29 @@ client.once('ready', () => {
         fs.readFile('../variables.json', 'utf-8', (err, data) => {
             if (err) {
                 console.error('Si è verificato un errore durante la lettura delle variabili:', err);
-              } else {
+            } else {
                 try {
-                  global = JSON.parse(data);
+                    global = JSON.parse(data);
 
-                  console.log('Variabili recuperate con successo.');
+                    console.log('Variabili recuperate con successo.');
                 } catch (error) {
-                  console.error('Si è verificato un errore durante il parsing dei dati JSON:', error);
+                    console.error('Si è verificato un errore durante il parsing dei dati JSON:', error);
                 }
             }
         });
     } else {
         console.log('Il file variables.json non esiste. Le variabili non sono state recuperate.');
-    };
-    
-    // ASPETTA 1 SECONDO PER FAR RECUPERARE LE VARIABILI
-    setTimeout(() => {
-        // RESUME DEI PROGRAMMI ATTIVI PRIMA DEL CRASH / SPEGNIMENTO
+    }
+    // Resume of the programs that were active before the bot crashed/stopped
+    for (let i = 0; i <= global.Total_Instances; i++) {
+        if (global.buy.status === 'active') {
 
-        for (let i = 0; i <= global.Total_Instances; i++) {
-            if (global.buy.status === 'active') {
-
-            }
-            if (global.sell.status === 'active') {
-
-            }
         }
-    }, 1000);
+        if (global.sell.status === 'active') {
+
+        }
+    }
 });
-
-// SALVATAGGIO VARIABILI AUTOMATICO
-
-
-
-// SALVATAGGIO VARIABILI MANUALE
-
-
 
 // COMANDI
 
