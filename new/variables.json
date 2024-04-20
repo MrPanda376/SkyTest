@@ -1,15 +1,9 @@
 {
-  "instance": 1,
-  "stopCommand": [
-    false
-  ],
-  "timeAutoSave": 900000,
-  "toggleDM": [
-    false
-  ],
-  "userID": [
-    "718011250839257099"
-  ],
+  "instance": 0,
+  "Total_Instances": 1,
+  "stopCommand": 0,
+  "timeAutoSave": 10000,
+  "channel": "1228448453672046722",
   "buy": {
     "item": [
       "N/D"
@@ -22,6 +16,18 @@
     ],
     "status": [
       "inactive"
+    ],
+    "toggleDM": [
+      false
+    ],
+    "userID": [
+      "718011250839257099"
+    ],
+    "channel": [
+      "1228448453672046722"
+    ],
+    "ID": [
+      1
     ]
   },
   "sell": {
@@ -36,6 +42,18 @@
     ],
     "status": [
       "inactive"
+    ],
+    "toggleDM": [
+      false
+    ],
+    "userID": [
+      "718011250839257099"
+    ],
+    "channel": [
+      "1228448453672046722"
+    ],
+    "ID": [
+      1
     ]
   }
 }

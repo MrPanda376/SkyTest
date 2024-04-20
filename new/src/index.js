@@ -9,29 +9,30 @@ const { channel } = require("diagnostics_channel");
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 let global = {
-    "instance": 1,
+    "instance": 0, // Ricordarsi che é sempre instance - 1 pk stiamo lavorando con gli array
     "Total_Instances": 1,
+    "stopCommand": 0,
     "timeAutoSave": 900000,
     "channel": '1228448453672046722',
     "buy": {
         "item": ['N/D'],
         "price": [1],
         "time": [10000],
-        "stopCommand": [false],
         "status": ['inactive'],
         "toggleDM": [false],
         "userID": ['718011250839257099'],
         "channel": ['1228448453672046722'],
+        "ID": [1],
     },
     "sell": {
         "item": ['N/D'],
         "price": [1],
         "time": [10000],
-        "stopCommand": [false],
         "status": ['inactive'],
         "toggleDM": [false],
         "userID": ['718011250839257099'],
         "channel": ['1228448453672046722'],
+        "ID": [1],
     },
 };
 
@@ -64,7 +65,7 @@ client.once('ready', () => {
     setTimeout(() => {
         // RESUME DEI PROGRAMMI ATTIVI PRIMA DEL CRASH / SPEGNIMENTO
 
-        for (let i = 0; i < global.Total_Instances - 1; i++) {
+        for (let i = 0; i <= global.Total_Instances; i++) {
             if (global.buy.status === 'active') {
 
             }
@@ -97,22 +98,16 @@ client.on('interactionCreate', async (interaction) => {
     if (commandName === 'start-program-sell') {
         await interaction.reply(`Programma per vendere avviato nell\'instance: ${global.instance}`);
 
-        global.stopCommand[global.instance - 1] = false;
+        global.stopCommand[global.instance] = false;
 
-        main_1_sell(interaction).catch((error) => {
-            console.error('Si è verificato un errore durante l\'esecuzione:', error);
-            global.sell.status = 'active';
-        });
+        Bazaar_Tracker(global, 'sell');
 
     } else if (commandName === 'start-program-buy') {
         await interaction.reply(`Programma per comprare avviato nell\'instance: ${global.instance}`);
 
-        global.stopCommand[global.instance - 1] = false;
+        global.stopCommand[global.instance] = false;
         
-        altMain_1_buy(interaction).catch((error) => {
-            console.error('Si è verificato un errore durante l\'esecuzione:', error);
-            buyProgramStatus_1 = 'active';
-        });
+        Bazaar_Tracker(global, 'buy');
 
     } else if (commandName === 'set-program-sell') {
         global.sell.item = options.getString('item');
@@ -245,83 +240,61 @@ client.login(token);
 // SELL
 
 async function Bazaar_Tracker(global, trackerType) {
-    while (!global.stopCommand[0]) {
-        sellProgramStatus_1 = 'active';
+    let local = {};
+    if (trackerType === 'buy') {
+        local = {
+            "instance": global.instance, // The instance of the program
+            "filePath": '../output.txt', // The file path of the API's response
+            "valueToFind": 'pricePerUnit', // Value searched in the output file to find the price of the item
+            "item": global.buy.item[global.instance], // Item tracked
+            "price": global.buy.price[global.instance], // Price to reach
+            "time": global.buy.time[global.instance], // How often does this function repeat
+            "toggleDM": global.buy.toggleDM[global.instance], // Enables DMs
+            "userID": global.buy.userID[global.instance], // The person receiving the DMs
+            "channel": global.buy.channel[global.instance], // Channel where the bot writes the price history of the item
+            "ID": global.buy.ID[global.instance], // The ID of this process
+        };
+    } else {
+        local = {
+            "instance": global.instance,
+            "filePath": '../output.txt',
+            "valueToFind": 'pricePerUnit',
+            "item": global.sell.item[global.instance],
+            "price": global.sell.price[global.instance],
+            "time": global.sell.time[global.instance],
+            "toggleDM": global.sell.toggleDM[global.instance],
+            "userID": global.sell.userID[global.instance],
+            "channel": global.sell.channel[global.instance],
+            "ID": global.sell.ID[global.instance],
+        };
+    }
+    while (global.stopCommand != local.ID) {
 
-        const outputFilePath = '../output.txt';
-        await saveDataToFile(outputFilePath);
-
-        const filePath = '../output.txt';
-        const nameToSearch = global.sell.item[0]; // Oggetto da cercare
-
-        const context = await searchNameInFile(filePath, nameToSearch);
-
-        const valueToFind = 'pricePerUnit'; // Valore che viene cercato in function.js da cambiare solo se si cambia cosa si vuole cercare
-        const value = parseInt(findValue([context], valueToFind), 10);
-
-        const formattedValue = value.toLocaleString();
-
-        // Invia il messaggio formattato su Discord
-        const channel = client.channels.cache.get('1228448453672046722'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
-
-        let User = await client.users.fetch(UserId_1);
+        await saveDataToFile(local.filePath);
+        const context = await searchNameInFile(local.filePath, local.item);
         
-        const maxValue = priceSellCollector_1; // Valore da superare per fare in modo che il bot pinga tutti
-        const formattedMaxValue = maxValue.toLocaleString(); // Valore maxValue formattato con i punti
+        const channel = client.channels.cache.get(local.channel);
 
-        if (value > maxValue) {
-            channel.send(`${nameToSearch} - VENDI TUTTO ORA!!! @everyone - SellPrice: ${formattedValue} - Set to: ${formattedMaxValue}`); // Output se prezzo conveniente
-            if (toggleDM_1 === 'true') {
-                User.send(`${nameToSearch} - VENDI TUTTO ORA!!! @everyone - SellPrice: ${formattedValue} - Set to: ${formattedMaxValue}`) // Messaggio nei DM
-                  .catch(error => {
-                    console.error('Errore durante l\'invio del messaggio nei DM:', error); // Errore durante l'invio del messaggio nei DM
-            })}
+        const user = await client.users.fetch(local.userID);
+
+        const price = parseInt(findValue([context], local.valueToFind), 10);
+        const setPrice = local.price;
+
+        const formattedPrice = price.toLocaleString();
+        const formattedSetPrice = setPrice.toLocaleString();
+
+        if (price > setPrice) {
+            channel.send(`${local.item} - VENDI TUTTO ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo conveniente
+            if (local.toggleDM === 'true') {
+                user.send(`${local.item} - VENDI TUTTO ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`) // Messaggio nei DM
+                    .catch(error => {
+                        console.error('Errore durante l\'invio del messaggio nei DM:', error); // Errore durante l'invio del messaggio nei DM
+                    })
+            }
         } else {
-            channel.send(`${nameToSearch} - Non vendere - SellPrice: ${formattedValue} - Set to: ${formattedMaxValue}`); // Output se prezzo NON conveniente
+            channel.send(`${local.item} - Non vendere - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo NON conveniente
         }
 
-        await sleep(timeSellCollector_1); // Ritardo tra le esecuzioni
-    };
-};
-
-// BUY
-
-async function altMain_1_buy() {
-    while (!global.stopCommand[0]) {
-        buyProgramStatus_1 = 'active';
-
-        const outputFilePath = '../output.txt';
-        await saveDataToFile(outputFilePath);
-
-        const filePath = 'output.txt';
-        const nameToSearch = global.item[1]; // Oggetto da cercare
-
-        const context = await altSearchNameInFile(filePath, nameToSearch);
-
-        const valueToFind = 'pricePerUnit'; // Valore che viene cercato in altFunction.js da cambiare solo se si cambia cosa si vuole cercare
-        const value = parseInt(altFindValue([context], valueToFind), 10);
-
-        const formattedValue = value.toLocaleString();
-
-        // Invia il messaggio formattato su Discord
-        const channel = client.channels.cache.get('1228448453672046722'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
-
-        let User = await client.users.fetch(UserId_1);
-        
-        const maxValue = priceBuyCollector_1; // Valore da superare per fare in mode che il bot pinga tutti
-        const formattedMaxValue = maxValue.toLocaleString(); // Valore maxValue formattato con i punti
-
-        if (value < maxValue) {
-            channel.send(`${nameToSearch} - COMPRA ORA!!! @everyone - SellPrice: ${formattedValue} - Set to: ${formattedMaxValue}`); // Output se prezzo conveniente
-            if (toggleDM_1 === 'true') {
-                User.send(`${nameToSearch} - COMPRA ORA!!! @everyone - SellPrice: ${formattedValue} - Set to: ${formattedMaxValue}`) // Messaggio nei DM
-                  .catch(error => {
-                    console.error('Errore durante l\'invio del messaggio nei DM:', error); // Errore durante l'invio del messaggio nei DM
-            })}
-        } else {
-            channel.send(`${nameToSearch} - Non comprare - SellPrice: ${formattedValue} - Set to: ${formattedMaxValue}`); // Output se prezzo NON conveniente
-        }
-
-        await sleep(timeBuyCollector_1); // Ritardo tra le esecuzioni
+        await sleep(local.time); // Ritardo tra le esecuzioni
     };
 };
