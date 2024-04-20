@@ -63,10 +63,10 @@ client.once('ready', () => {
     }
     // Resume of the programs that were active before the bot crashed/stopped
     for (let i = 0; i < global.Total_Instances; i++) {
-        if (global.buy.status) {
+        if (global.buy.status === 'on') {
 
         }
-        if (global.sell.status) {
+        if (global.sell.status === 'on') {
 
         }
     }
@@ -187,7 +187,7 @@ client.on('interactionCreate', async (interaction) => {
                 global.buy.status[global.instance] = 'off';
             } else {
                 global.stopCommand = global.sell.ID[global.instance];
-                
+
                 global.sell.status[global.instance] = 'off';
             }
 
@@ -251,7 +251,7 @@ async function Bazaar_Tracker(global) {
         if (local.trackerType === 'buy') {
             if (price < setPrice) {
                 channel.send(`${local.item} - COMPRA ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo conveniente
-                if (local.toggleDM === 'true') {
+                if (local.toggleDM) {
                     user.send(`${local.item} - COMPRA ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`) // Messaggio nei DM
                         .catch(error => {
                             console.error('Errore durante l\'invio del messaggio nei DM:', error); // Errore durante l'invio del messaggio nei DM
@@ -264,7 +264,7 @@ async function Bazaar_Tracker(global) {
         } else {
             if (price > setPrice) {
                 channel.send(`${local.item} - VENDI TUTTO ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo conveniente
-                if (local.toggleDM === 'true') {
+                if (local.toggleDM) {
                     user.send(`${local.item} - VENDI TUTTO ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`) // Messaggio nei DM
                         .catch(error => {
                             console.error('Errore durante l\'invio del messaggio nei DM:', error); // Errore durante l'invio del messaggio nei DM
