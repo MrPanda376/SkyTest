@@ -12,8 +12,6 @@ let global = {
     "instance": 1,
     "Total_Instances": 1,
     "timeAutoSave": 900000,
-    "toggleDM": [false],
-    "userID": ['718011250839257099'],
     "channel": '1228448453672046722',
     "buy": {
         "item": ['N/D'],
@@ -21,6 +19,8 @@ let global = {
         "time": [10000],
         "stopCommand": [false],
         "status": ['inactive'],
+        "toggleDM": [false],
+        "userID": ['718011250839257099'],
         "channel": ['1228448453672046722'],
     },
     "sell": {
@@ -29,6 +29,8 @@ let global = {
         "time": [10000],
         "stopCommand": [false],
         "status": ['inactive'],
+        "toggleDM": [false],
+        "userID": ['718011250839257099'],
         "channel": ['1228448453672046722'],
     },
 };
@@ -242,7 +244,7 @@ client.login(token);
 
 // SELL
 
-async function main_1_sell() {
+async function Bazaar_Tracker(global, trackerType) {
     while (!global.stopCommand[0]) {
         sellProgramStatus_1 = 'active';
 
