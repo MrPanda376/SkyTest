@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits, Interaction, ModalSubmitInteraction } = require("discord.js");
 const { token } = require('../data/config.json');
 const { saveDataToFile, searchNameInFile, findValue, sleep } = require('./functions/functions');
-const { autoSave, manualSave } = require('./functions/Save_Variables');
+const { autoSave, manualSave } = require('./functions/saveVariables');
 const fs = require('fs');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -207,7 +207,7 @@ async function Bazaar_Tracker(global) {
         local = {
             "instance": global.instance, // The instance of the program
             "trackerType": global.trackerType, // The type of the tracker (buy/sell)
-            "filePath": '../output.txt', // The file path of the API's response
+            "filePath": '../output/output.txt', // The file path of the API's response
             "valueToFind": 'pricePerUnit', // Value searched in the output file to find the price of the item
             "item": global.buy.item[global.instance], // Item tracked
             "price": global.buy.price[global.instance], // Price to reach
@@ -221,7 +221,7 @@ async function Bazaar_Tracker(global) {
         local = {
             "instance": global.instance,
             "trackerType": global.trackerType,
-            "filePath": '../output.txt',
+            "filePath": '../output/output.txt',
             "valueToFind": 'pricePerUnit',
             "item": global.sell.item[global.instance],
             "price": global.sell.price[global.instance],
