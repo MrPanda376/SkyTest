@@ -2,7 +2,7 @@
   "instance": 0,
   "Total_Instances": 1,
   "trackerType": "buy",
-  "stopCommand": 0,
+  "stopCommand": 1,
   "timeAutoSave": 10000,
   "channel": "1228448453672046722",
   "buy": {
