@@ -4,7 +4,7 @@ const { token } = require('../data/config.json');
 const { saveDataToFile } = require('./functions/apiRequests');
 const { searchNameInFile, findValue } = require('./functions/search');
 const { autoSave, manualSave } = require('./functions/saveVariables');
-const { sleep } = require('./functions/utilities');
+const { sleep, randomID } = require('./functions/utilities');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -33,7 +33,7 @@ let global = {
         "toggleDM": [false],
         "userID": ['718011250839257099'],
         "channel": ['1228448453672046722'],
-        "ID": [1],
+        "ID": [2],
     },
 };
 
@@ -62,27 +62,30 @@ client.once('ready', () => {
         console.log('Il file variables.json non esiste. Le variabili non sono state recuperate.');
     }
     // Resume of the programs that were active before the bot crashed/stopped
-    let temp = global;
-    for (let i = 0; i < global.Total_Instances; i++) {
-        if (global.buy.status[i] === 'on') {
-            temp.instance = i;
-            temp.trackerType = 'buy';
-            try {
-                Bazaar_Tracker(temp);
-            } catch (error) {
-                console.error('Si è verificato un errore durante l\'esecuzione:', error);
+    setTimeout(() => {
+        console.log(global.buy.status);
+        let temp = global;
+        for (let i = 0; i < global.Total_Instances; i++) {
+            if (global.buy.status[i] === 'on') {
+                temp.instance = i;
+                temp.trackerType = 'buy';
+                try {
+                    Bazaar_Tracker(temp);
+                } catch (error) {
+                    console.error('Si è verificato un errore durante l\'esecuzione:', error);
+                }
+            }
+            if (global.sell.status[i] === 'on') {
+                temp.instance = i;
+                temp.trackerType = 'sell';
+                try {
+                    Bazaar_Tracker(temp);
+                } catch (error) {
+                    console.error('Si è verificato un errore durante l\'esecuzione:', error);
+                }
             }
         }
-        if (global.sell.status[i] === 'on') {
-            temp.instance = i;
-            temp.trackerType = 'sell';
-            try {
-                Bazaar_Tracker(temp);
-            } catch (error) {
-                console.error('Si è verificato un errore durante l\'esecuzione:', error);
-            }
-        }
-    }
+    }, 1000);
 });
 
 // COMANDI
@@ -201,10 +204,14 @@ client.on('interactionCreate', async (interaction) => {
         case 'stop_tracker':
             if (global.trackerType === 'buy') {
                 global.stopCommand = global.buy.ID[global.instance];
-                
+
+                global.buy.ID[global.instance] = randomID(1, 10000, global);
+
                 global.buy.status[global.instance] = 'off';
             } else {
                 global.stopCommand = global.sell.ID[global.instance];
+
+                global.sell.ID[global.instance] = randomID(1, 10000, global);
 
                 global.sell.status[global.instance] = 'off';
             }
