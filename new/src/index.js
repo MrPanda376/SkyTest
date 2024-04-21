@@ -256,7 +256,7 @@ async function Bazaar_Tracker(global) {
     while (global.stopCommand != local.ID) {
 
         await saveDataToFile(local.filePath);
-        const context = await searchNameInFile(local.filePath, local.item);
+        const context = await searchNameInFile(local.filePath, local.item, local.trackerType);
         
         const channel = client.channels.cache.get(local.channel);
 

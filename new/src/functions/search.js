@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function searchNameInFile(filePath, name) {
+function searchNameInFile(filePath, name, trackerType) {
     return new Promise((resolve, reject) => {
         fs.readFile(filePath, 'utf-8', (error, data) => {
             if (error) {
@@ -21,7 +21,12 @@ function searchNameInFile(filePath, name) {
                         foundIndex = i;
                         count++;
                         if (count >= 2) { // Dopo quante volte che trova nameToSearch si deve fermare es: 2
-                            const context = words.slice(foundIndex + 1, foundIndex + 19); // Quante parole dopo nameToSearch si deve salvare es: 1/19
+                            let context;
+                            if (trackerType === 'buy') {
+                                context = words.slice(foundIndex + 215, foundIndex + 218); // Quante parole dopo nameToSearch si deve salvare es: 215/217
+                            } else {
+                                context = words.slice(foundIndex + 1, foundIndex + 19); // Quante parole dopo nameToSearch si deve salvare es: 1/19
+                            }
                             resolve(context);
                             return;
                         }

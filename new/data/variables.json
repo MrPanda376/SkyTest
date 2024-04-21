@@ -1,8 +1,8 @@
 {
   "instance": 0,
   "Total_Instances": 1,
-  "trackerType": "buy",
-  "stopCommand": 1,
+  "trackerType": "sell",
+  "stopCommand": 7936,
   "timeAutoSave": 10000,
   "channel": "1228448453672046722",
   "buy": {
@@ -16,7 +16,7 @@
       10000
     ],
     "status": [
-      "off"
+      "on"
     ],
     "toggleDM": [
       false
@@ -28,21 +28,21 @@
       "1228448453672046722"
     ],
     "ID": [
-      2976
+      2762
     ]
   },
   "sell": {
     "item": [
-      "N/D"
+      "STOCK_OF_STONKS"
     ],
     "price": [
-      1
+      10000000
     ],
     "time": [
       10000
     ],
     "status": [
-      "off"
+      "on"
     ],
     "toggleDM": [
       false
@@ -54,7 +54,7 @@
       "1228448453672046722"
     ],
     "ID": [
-      9350
+      1361
     ]
   }
 }
