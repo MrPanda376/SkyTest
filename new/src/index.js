@@ -1,8 +1,10 @@
 const { Client, GatewayIntentBits, Interaction, ModalSubmitInteraction } = require("discord.js");
-const { token } = require('../data/config.json');
-const { saveDataToFile, searchNameInFile, findValue, sleep } = require('./functions/functions');
-const { autoSave, manualSave } = require('./functions/saveVariables');
 const fs = require('fs');
+const { token } = require('../data/config.json');
+const { saveDataToFile } = require('./functions/apiRequests');
+const { searchNameInFile, findValue } = require('./functions/search');
+const { autoSave, manualSave } = require('./functions/saveVariables');
+const { sleep } = require('./functions/utilities');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -109,7 +111,7 @@ client.on('interactionCreate', async (interaction) => {
             } catch (error) {
                 console.error('Si è verificato un errore durante l\'esecuzione:', error);
             }
-            break;
+        break;
         case 'set_tracker':
             if (global.trackerType === 'buy') {
                 global.buy.item[global.instance] = options.getString('item');
@@ -129,7 +131,7 @@ client.on('interactionCreate', async (interaction) => {
                 channel_CMD.send(`Nuovo tempo impostato: ${global.sell.time[global.instance]}`);
             }
             channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1} tipo: ${global.trackerType}`);
-            break;
+        break;
         case 'help':
             await interaction.reply('Se non sai come far partire il bot segui i seguenti step:');
             channel_CMD.send('1-Imposta il bot con le informazioni dell\'item da tracciare usando /set-program-sell o /set-program-buy');
@@ -141,9 +143,9 @@ client.on('interactionCreate', async (interaction) => {
             channel_CMD.send('7-Per impostare il destinatario dei DM usa /set-dm ed inserisci l\'ID del destinatario');
             channel_CMD.send('8-Usa /info per sapere informazioni sulle impostazioni attuali del bot');
             channel_CMD.send('9-Usa /select, seguito dal numero dell\'instance per selezionare una instance');
-            break;
+        break;
         case 'info':
-            break;
+        break;
         case 'toggle_dm':
             if (options.getString('boolean-value') === 'true' || options.getString('boolean-value') === 'false') {
                 if (global.trackerType === 'buy') {
@@ -159,7 +161,7 @@ client.on('interactionCreate', async (interaction) => {
             } else {
                 await interaction.reply('Il parametro inserito non é valido');
             }
-            break;
+        break;
         case 'set_dm':
             if (global.trackerType === 'buy') {
                 global.buy.userID[global.instance] = options.getString('id');
@@ -171,7 +173,7 @@ client.on('interactionCreate', async (interaction) => {
                 await interaction.reply(`I messaggi DM verranno inviati a: ${global.sell.userID[global.instance]}`);
             }
             channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
-            break;
+        break;
         case 'select':
             if (options.getString('type') === 'buy' || options.getString('type') === 'sell') {
                 global.instance = parseInt(options.getString('instance')) - 1;
@@ -181,7 +183,7 @@ client.on('interactionCreate', async (interaction) => {
             } else {
                 await interaction.reply('Il parametro inserito non é valido');
             }
-            break;
+        break;
         case 'save_now':
             try {
                 manualSave(global);
@@ -190,12 +192,12 @@ client.on('interactionCreate', async (interaction) => {
             } catch (error) {
                 console.error('Si è verificato un errore durante l\'esecuzione:', error);
             }
-            break;
+        break;
         case 'auto_save':
             global.timeAutoSave = parseInt(options.getString('time'));
 
             await interaction.reply(`Le impostazioni verranno salvate ogni ${global.timeAutoSave} ms!`);
-            break;
+        break;
         case 'stop_tracker':
             if (global.trackerType === 'buy') {
                 global.stopCommand = global.buy.ID[global.instance];
@@ -208,7 +210,7 @@ client.on('interactionCreate', async (interaction) => {
             }
 
             await interaction.reply(`Il tracker nell\'instance: ${global.instance + 1} di tipo: ${global.trackerType} é stato fermato!`);
-            break;
+        break;
     }
 });
 

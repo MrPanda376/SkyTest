@@ -1,7 +1,7 @@
 const fs = require('fs');
-const { sleep } = require('./functions');
+const { sleep } = require('./utilities');
 
-// SALVATAGGIO AUTOMATICO DELLE VARIABILI
+// Salvataggio automatico delle variabili
 
 async function autoSave(timeAutoSave, variablesToSave) {
     while (true) {
@@ -20,7 +20,7 @@ async function autoSave(timeAutoSave, variablesToSave) {
     };
 };
 
-// SALVATAGGIO MANUALE DELLE VARIABILI
+// Salvataggio manuale delle variabili
 
 async function manualSave(variablesToSave) {  
     // Converti l'oggetto in una stringa JSON
