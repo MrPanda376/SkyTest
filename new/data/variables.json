@@ -1,7 +1,7 @@
 {
   "instance": 0,
   "Total_Instances": 1,
-  "trackerType": "",
+  "trackerType": "buy",
   "stopCommand": 0,
   "timeAutoSave": 10000,
   "channel": "1228448453672046722",
@@ -16,7 +16,7 @@
       10000
     ],
     "status": [
-      0
+      "off"
     ],
     "toggleDM": [
       false
@@ -42,7 +42,7 @@
       10000
     ],
     "status": [
-      0
+      "off"
     ],
     "toggleDM": [
       false

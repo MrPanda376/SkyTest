@@ -1,10 +1,8 @@
 const { Client, GatewayIntentBits, Interaction, ModalSubmitInteraction } = require("discord.js");
-const { token } = require('../config.json');
+const { token } = require('../data/config.json');
 const { saveDataToFile, searchNameInFile, findValue, sleep } = require('./functions/functions');
-const { altFindValue, altSearchNameInFile } = require('./functions/altFunction');
 const { autoSave, manualSave } = require('./functions/Save_Variables');
 const fs = require('fs');
-const { channel } = require("diagnostics_channel");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -43,9 +41,9 @@ client.once('ready', () => {
     // LETTURA VARIABILI
 
     // Verifica se il file variables.json esiste
-    if (fs.existsSync('../variables.json')) {
+    if (fs.existsSync('../data/variables.json')) {
         // Leggi i dati dal file
-        fs.readFile('../variables.json', 'utf-8', (err, data) => {
+        fs.readFile('../data/variables.json', 'utf-8', (err, data) => {
             if (err) {
                 console.error('Si è verificato un errore durante la lettura delle variabili:', err);
             } else {
@@ -101,21 +99,21 @@ client.on('interactionCreate', async (interaction) => {
             break;
         case 'set_tracker':
             if (global.trackerType === 'buy') {
-                global.buy.item = options.getString('item');
-                global.buy.price = parseInt(options.getString('price'));
-                global.buy.time = parseInt(options.getString('time'));
+                global.buy.item[global.instance] = options.getString('item');
+                global.buy.price[global.instance] = parseInt(options.getString('price'));
+                global.buy.time[global.instance] = parseInt(options.getString('time'));
 
-                await interaction.reply(`Nuovo item impostato: ${global.buy.item}`);
-                channel_CMD.send(`Nuovo prezzo impostato: ${global.buy.price}`);
-                channel_CMD.send(`Nuovo tempo impostato: ${global.buy.time}`);
+                await interaction.reply(`Nuovo item impostato: ${global.buy.item[global.instance]}`);
+                channel_CMD.send(`Nuovo prezzo impostato: ${global.buy.price[global.instance]}`);
+                channel_CMD.send(`Nuovo tempo impostato: ${global.buy.time[global.instance]}`);
             } else {
-                global.sell.item = options.getString('item');
-                global.sell.price = parseInt(options.getString('price'));
-                global.sell.time = parseInt(options.getString('time'));
+                global.sell.item[global.instance] = options.getString('item');
+                global.sell.price[global.instance] = parseInt(options.getString('price'));
+                global.sell.time[global.instance] = parseInt(options.getString('time'));
 
-                await interaction.reply(`Nuovo item impostato: ${global.sell.item}`);
-                channel_CMD.send(`Nuovo prezzo impostato: ${global.sell.price}`);
-                channel_CMD.send(`Nuovo tempo impostato: ${global.sell.time}`);
+                await interaction.reply(`Nuovo item impostato: ${global.sell.item[global.instance]}`);
+                channel_CMD.send(`Nuovo prezzo impostato: ${global.sell.price[global.instance]}`);
+                channel_CMD.send(`Nuovo tempo impostato: ${global.sell.time[global.instance]}`);
             }
             channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1} tipo: ${global.trackerType}`);
             break;
@@ -138,11 +136,11 @@ client.on('interactionCreate', async (interaction) => {
                 if (global.trackerType === 'buy') {
                     global.buy.toggleDM[global.instance] = Boolean(options.getString('boolean-value'));
 
-                    await interaction.reply(`I messaggi DM sono impostati su: ${global.buy.toggleDM}`);
+                    await interaction.reply(`I messaggi DM sono impostati su: ${global.buy.toggleDM[global.instance]}`);
                 } else {
                     global.sell.toggleDM[global.instance] = Boolean(options.getString('boolean-value'));
 
-                    await interaction.reply(`I messaggi DM sono impostati su: ${global.sell.toggleDM}`);
+                    await interaction.reply(`I messaggi DM sono impostati su: ${global.sell.toggleDM[global.instance]}`);
                 }
                 channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1}`);
             } else {
@@ -151,20 +149,25 @@ client.on('interactionCreate', async (interaction) => {
             break;
         case 'set_dm':
             if (global.trackerType === 'buy') {
-                global.buy.userID = options.getString('id');
+                global.buy.userID[global.instance] = options.getString('id');
 
-                await interaction.reply(`I messaggi DM verranno inviati a: ${global.buy.userID}`);
+                await interaction.reply(`I messaggi DM verranno inviati a: ${global.buy.userID[global.instance]}`);
             } else {
-                global.sell.userID = options.getString('id');
+                global.sell.userID[global.instance] = options.getString('id');
 
-                await interaction.reply(`I messaggi DM verranno inviati a: ${global.sell.userID}`);
+                await interaction.reply(`I messaggi DM verranno inviati a: ${global.sell.userID[global.instance]}`);
             }
             channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
             break;
         case 'select':
-            global.instance = parseInt(options.getString('instance')) - 1;
+            if (options.getString('type') === 'buy' || options.getString('type') === 'sell') {
+                global.instance = parseInt(options.getString('instance')) - 1;
+                global.trackerType = options.getString('type');
 
-            await interaction.reply(`Hai selezionato l\'instance numero: ${global.instance + 1}`);
+                await interaction.reply(`Hai selezionato l\'instance numero: ${global.instance + 1} di tipo: ${global.trackerType}`);
+            } else {
+                await interaction.reply('Il parametro inserito non é valido');
+            }
             break;
         case 'save_now':
             try {
@@ -181,7 +184,7 @@ client.on('interactionCreate', async (interaction) => {
             await interaction.reply(`Le impostazioni verranno salvate ogni ${global.timeAutoSave} ms!`);
             break;
         case 'stop_tracker':
-            if (trackerType === 'buy') {
+            if (global.trackerType === 'buy') {
                 global.stopCommand = global.buy.ID[global.instance];
                 
                 global.buy.status[global.instance] = 'off';

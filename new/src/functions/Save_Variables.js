@@ -9,7 +9,7 @@ async function autoSave(timeAutoSave, variablesToSave) {
         const dataToSave = JSON.stringify(variablesToSave, null, 2);
           
         // Scrivi la stringa JSON in un file
-        fs.writeFileSync('../variables.json', dataToSave, 'utf-8', (err) => {
+        fs.writeFileSync('../data/variables.json', dataToSave, 'utf-8', (err) => {
             if (err) {
                 console.error('Si è verificato un errore durante il salvataggio delle variabili:', err);
             } else {
@@ -27,7 +27,7 @@ async function manualSave(variablesToSave) {
     const dataToSave = JSON.stringify(variablesToSave, null, 2);
           
     // Scrivi la stringa JSON in un file
-    fs.writeFileSync('../variables.json', dataToSave, 'utf-8', (err) => {
+    fs.writeFileSync('../data/variables.json', dataToSave, 'utf-8', (err) => {
         if (err) {
             console.error('Si è verificato un errore durante il salvataggio delle variabili:', err);
         } else {
