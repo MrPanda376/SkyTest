@@ -60,12 +60,25 @@ client.once('ready', () => {
         console.log('Il file variables.json non esiste. Le variabili non sono state recuperate.');
     }
     // Resume of the programs that were active before the bot crashed/stopped
+    let temp = global;
     for (let i = 0; i < global.Total_Instances; i++) {
-        if (global.buy.status === 'on') {
-
+        if (global.buy.status[i] === 'on') {
+            temp.instance = i;
+            temp.trackerType = 'buy';
+            try {
+                Bazaar_Tracker(temp);
+            } catch (error) {
+                console.error('Si è verificato un errore durante l\'esecuzione:', error);
+            }
         }
-        if (global.sell.status === 'on') {
-
+        if (global.sell.status[i] === 'on') {
+            temp.instance = i;
+            temp.trackerType = 'sell';
+            try {
+                Bazaar_Tracker(temp);
+            } catch (error) {
+                console.error('Si è verificato un errore durante l\'esecuzione:', error);
+            }
         }
     }
 });
