@@ -63,7 +63,6 @@ client.once('ready', () => {
     }
     // Resume of the programs that were active before the bot crashed/stopped
     setTimeout(() => {
-        console.log(global.buy.status);
         let temp = global;
         for (let i = 0; i < global.Total_Instances; i++) {
             if (global.buy.status[i] === 'on') {
