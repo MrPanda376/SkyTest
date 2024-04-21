@@ -1,8 +1,8 @@
 {
   "instance": 0,
   "Total_Instances": 1,
-  "trackerType": "sell",
-  "stopCommand": 0,
+  "trackerType": "buy",
+  "stopCommand": 1,
   "timeAutoSave": 10000,
   "channel": "1228448453672046722",
   "buy": {
@@ -28,7 +28,7 @@
       "1228448453672046722"
     ],
     "ID": [
-      1
+      2976
     ]
   },
   "sell": {
@@ -54,7 +54,7 @@
       "1228448453672046722"
     ],
     "ID": [
-      1
+      9350
     ]
   }
 }
