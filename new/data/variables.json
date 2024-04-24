@@ -1,8 +1,8 @@
 {
   "instance": 0,
   "Total_Instances": 1,
-  "trackerType": "sell",
-  "stopCommand": 7936,
+  "trackerType": "buy",
+  "stopCommand": 8115,
   "timeAutoSave": 10000,
   "channel": "1228448453672046722",
   "buy": {
@@ -16,7 +16,7 @@
       10000
     ],
     "status": [
-      "on"
+      "off"
     ],
     "toggleDM": [
       false
@@ -28,7 +28,7 @@
       "1228448453672046722"
     ],
     "ID": [
-      2762
+      6318
     ]
   },
   "sell": {
@@ -42,7 +42,7 @@
       10000
     ],
     "status": [
-      "on"
+      "off"
     ],
     "toggleDM": [
       false
@@ -54,7 +54,7 @@
       "1228448453672046722"
     ],
     "ID": [
-      1361
+      6843
     ]
   }
 }
