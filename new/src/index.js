@@ -222,6 +222,8 @@ client.on('interactionCreate', async (interaction) => {
                         global.buy.ID[global.instance] = randomID(1, 10000, global);
     
                         global.buy.status[global.instance] = 'off';
+
+                        await interaction.reply(`Il tracker nell\'instance: ${global.instance + 1} di tipo: ${global.trackerType} é stato fermato!`);
                     }
                 } else {
                     if (global.sell.status[global.instance] === 'off') {
@@ -232,10 +234,10 @@ client.on('interactionCreate', async (interaction) => {
                         global.sell.ID[global.instance] = randomID(1, 10000, global);
         
                         global.sell.status[global.instance] = 'off';
+
+                        await interaction.reply(`Il tracker nell\'instance: ${global.instance + 1} di tipo: ${global.trackerType} é stato fermato!`);
                     }
                 }
-    
-                await interaction.reply(`Il tracker nell\'instance: ${global.instance + 1} di tipo: ${global.trackerType} é stato fermato!`);
             }
         break;
     }
