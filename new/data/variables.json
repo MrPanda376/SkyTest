@@ -1,6 +1,6 @@
 {
   "instance": 0,
-  "Total_Instances": 1,
+  "totalInstances": 1,
   "trackerType": "buy",
   "stopCommand": 2,
   "timeCheckStop": 10000,

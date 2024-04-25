@@ -188,7 +188,7 @@ client.on('interactionCreate', async (interaction) => {
 
                 await interaction.reply(`Hai selezionato l\'instance numero: ${global.instance + 1} di tipo: ${global.trackerType}`);
             } else {
-                await interaction.reply('Il parametro inserito non é valido');
+                await interaction.reply('I parametri inseriti non sono validi.');
             }
         break;
         case 'save_now':
