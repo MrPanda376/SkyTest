@@ -101,18 +101,22 @@ client.on('interactionCreate', async (interaction) => {
 
     switch (commandName) {
         case 'start_tracker':
-            await interaction.reply(`Il tracker in modalitá: ${global.trackerType} é stato avviato nell\'instance: ${global.instance + 1}`);
-
-            if (global.trackerType === 'buy') {
-                global.buy.status[global.instance] = 'on';
+            if ((global.buy.status[global.instance] === 'on' && global.trackerType === 'buy') || (global.sell.status[global.instance] === 'on' && global.trackerType === 'sell')) {
+                await interaction.reply('Non é possibile avviare piú volte lo stesso tracker nella stessa instance.');
             } else {
-                global.sell.status[global.instance] = 'on';
-            }
+                await interaction.reply(`Il tracker in modalitá: ${global.trackerType} é stato avviato nell\'instance: ${global.instance + 1}`);
 
-            try {
-                Bazaar_Tracker(global, client);
-            } catch (error) {
-                console.error('Si è verificato un errore durante l\'esecuzione:', error);
+                if (global.trackerType === 'buy') {
+                    global.buy.status[global.instance] = 'on';
+                } else {
+                    global.sell.status[global.instance] = 'on';
+                }
+    
+                try {
+                    Bazaar_Tracker(global, client);
+                } catch (error) {
+                    console.error('Si è verificato un errore durante l\'esecuzione:', error);
+                }
             }
         break;
         case 'set_tracker':
@@ -207,7 +211,7 @@ client.on('interactionCreate', async (interaction) => {
             } else {
                 if (global.trackerType === 'buy') {
                     if (global.buy.status[global.instance] === 'off') {
-                        await interaction.reply('Non puoi fermare un tracker che non é stato startato');
+                        await interaction.reply('Non puoi fermare un tracker che non é stato startato.');
                     } else {
                         // Cooldown to wait for the checkStop function to stop the tracker
                         global.onCooldown = true;
@@ -227,7 +231,7 @@ client.on('interactionCreate', async (interaction) => {
                     }
                 } else {
                     if (global.sell.status[global.instance] === 'off') {
-                        await interaction.reply('Non puoi fermare un tracker che non é stato startato');
+                        await interaction.reply('Non puoi fermare un tracker che non é stato startato.');
                     } else {
                         // Cooldown to wait for the checkStop function to stop the tracker
                         global.onCooldown = true;
