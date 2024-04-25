@@ -205,18 +205,18 @@ client.on('interactionCreate', async (interaction) => {
             if (global.onCooldown) {
                 await interaction.reply(`Questo comando ha un cooldown di ${global.timeCheckStop} ms, attendi.`);
             } else {
-                // Cooldown to wait for the checkStop function to stop the tracker
-                global.onCooldown = true;
-                cooldown(global.timeCheckStop).then((result) => {
-                    global.onCooldown = result;
-                }).catch((error) => {
-                    console.error(error);
-                });
-
                 if (global.trackerType === 'buy') {
                     if (global.buy.status[global.instance] === 'off') {
                         await interaction.reply('Non puoi fermare un tracker che non é stato startato');
                     } else {
+                        // Cooldown to wait for the checkStop function to stop the tracker
+                        global.onCooldown = true;
+                        cooldown(global.timeCheckStop).then((result) => {
+                            global.onCooldown = result;
+                        }).catch((error) => {
+                            console.error(error);
+                        });
+
                         global.stopCommand = global.buy.ID[global.instance];
     
                         global.buy.ID[global.instance] = randomID(1, 10000, global);
@@ -229,6 +229,14 @@ client.on('interactionCreate', async (interaction) => {
                     if (global.sell.status[global.instance] === 'off') {
                         await interaction.reply('Non puoi fermare un tracker che non é stato startato');
                     } else {
+                        // Cooldown to wait for the checkStop function to stop the tracker
+                        global.onCooldown = true;
+                        cooldown(global.timeCheckStop).then((result) => {
+                            global.onCooldown = result;
+                        }).catch((error) => {
+                            console.error(error);
+                        });
+                        
                         global.stopCommand = global.sell.ID[global.instance];
     
                         global.sell.ID[global.instance] = randomID(1, 10000, global);
