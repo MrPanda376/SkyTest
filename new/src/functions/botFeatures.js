@@ -1,6 +1,6 @@
 const { saveDataToFile } = require('./apiRequests');
 const { searchNameInFile, findValue } = require('./search');
-const { sleep } = require('./utilities');
+const { sleep, checkStop } = require('./utilities');
 
 async function Bazaar_Tracker(global, client) {
     let local = {};
@@ -8,6 +8,8 @@ async function Bazaar_Tracker(global, client) {
         local = {
             "instance": global.instance, // The instance of the program
             "trackerType": global.trackerType, // The type of the tracker (buy/sell)
+            "stop": true, // The variable that stops the function (true = continue | false = stop)
+            "timeCheck": 10000, // The time (ms) between the checks of the function checkStop
             "filePath": '../output/output.txt', // The file path of the API's response
             "valueToFind": 'pricePerUnit', // Value searched in the output file to find the price of the item
             "item": global.buy.item[global.instance], // Item tracked
@@ -22,6 +24,8 @@ async function Bazaar_Tracker(global, client) {
         local = {
             "instance": global.instance,
             "trackerType": global.trackerType,
+            "stop": true,
+            "timeCheck": 10000,
             "filePath": '../output/output.txt',
             "valueToFind": 'pricePerUnit',
             "item": global.sell.item[global.instance],
@@ -35,8 +39,14 @@ async function Bazaar_Tracker(global, client) {
     }
     const channel = client.channels.cache.get(local.channel);
     const user = await client.users.fetch(local.userID);
-    while (global.stopCommand != local.ID) {
-
+    // Initializes the function to check if the function needs to be stopped
+    checkStop(global, local.ID, local.timeCheck).then((result) => {
+        local.stop = result;
+    }).catch((error) => {
+        console.error(error);
+    });
+    // The tracker
+    while (local.stop) {
         await saveDataToFile(local.filePath);
         const context = await searchNameInFile(local.filePath, local.item, local.trackerType);
 
@@ -75,8 +85,8 @@ async function Bazaar_Tracker(global, client) {
         }
 
         await sleep(local.time); // Ritardo tra le esecuzioni
-    };
-};
+    }
+}
 
 module.exports = {
     Bazaar_Tracker

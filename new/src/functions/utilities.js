@@ -17,7 +17,15 @@ function randomID(min, max, global) {
     return ID;
 }
 
+async function checkStop(global, local_ID, time) {
+    while (global.stopCommand !== local_ID) {
+        await sleep(time);
+    }
+    return false;
+}
+
 module.exports = {
     sleep,
-    randomID
+    randomID,
+    checkStop
 };
