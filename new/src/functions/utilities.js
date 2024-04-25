@@ -24,12 +24,14 @@ async function checkStop(global, local_ID, time) {
     return true;
 }
 
-async function cooldown() {
+async function cooldown(time) {
+    await sleep(time);
     return false;
 }
 
 module.exports = {
     sleep,
     randomID,
-    checkStop
+    checkStop,
+    cooldown
 };

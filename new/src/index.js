@@ -3,7 +3,7 @@ const fs = require('fs');
 const { token } = require('../data/config.json');
 const { Bazaar_Tracker } = require('./functions/botFeatures');
 const { autoSave, manualSave } = require('./functions/saveVariables');
-const { randomID } = require('./functions/utilities');
+const { randomID, cooldown } = require('./functions/utilities');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -13,6 +13,7 @@ let global = {
     "trackerType": 'buy',
     "stopCommand": 0,
     "timeCheckStop": 10000,
+    "onCooldown": false,
     "timeAutoSave": 10000,
     "channel": '1228448453672046722',
     "buy": {
@@ -201,21 +202,33 @@ client.on('interactionCreate', async (interaction) => {
             await interaction.reply(`Le impostazioni verranno salvate ogni ${global.timeAutoSave} ms!`);
         break;
         case 'stop_tracker':
-            if (global.trackerType === 'buy') {
-                global.stopCommand = global.buy.ID[global.instance];
-
-                global.buy.ID[global.instance] = randomID(1, 10000, global);
-
-                global.buy.status[global.instance] = 'off';
+            if (global.onCooldown) {
+                await interaction.reply(`Questo comando ha un cooldown di ${global.timeCheckStop} ms, attendi.`);
             } else {
-                global.stopCommand = global.sell.ID[global.instance];
+                // Cooldown to wait for the checkStop function to stop the tracker
+                global.onCooldown = true;
+                cooldown(timeCheckStop).then((result) => {
+                    global.onCooldown = result;
+                }).catch((error) => {
+                    console.error(error);
+                });
 
-                global.sell.ID[global.instance] = randomID(1, 10000, global);
-
-                global.sell.status[global.instance] = 'off';
+                if (global.trackerType === 'buy') {
+                    global.stopCommand = global.buy.ID[global.instance];
+    
+                    global.buy.ID[global.instance] = randomID(1, 10000, global);
+    
+                    global.buy.status[global.instance] = 'off';
+                } else {
+                    global.stopCommand = global.sell.ID[global.instance];
+    
+                    global.sell.ID[global.instance] = randomID(1, 10000, global);
+    
+                    global.sell.status[global.instance] = 'off';
+                }
+    
+                await interaction.reply(`Il tracker nell\'instance: ${global.instance + 1} di tipo: ${global.trackerType} é stato fermato!`);
             }
-
-            await interaction.reply(`Il tracker nell\'instance: ${global.instance + 1} di tipo: ${global.trackerType} é stato fermato!`);
         break;
     }
 });
