@@ -97,7 +97,7 @@ client.on('interactionCreate', async (interaction) => {
 
     const { commandName } = interaction;
     const options = interaction.options;
-    const channel_CMD = await client.channels.fetch(global.channel);
+    const channelCMD = await client.channels.fetch(global.channel);
 
     switch (commandName) {
         case 'start_tracker':
@@ -126,30 +126,30 @@ client.on('interactionCreate', async (interaction) => {
                 global.buy.time[global.instance] = parseInt(options.getString('time'));
 
                 await interaction.reply(`Nuovo item impostato: ${global.buy.item[global.instance]}`);
-                channel_CMD.send(`Nuovo prezzo impostato: ${global.buy.price[global.instance]}`);
-                channel_CMD.send(`Nuovo tempo impostato: ${global.buy.time[global.instance]}`);
+                channelCMD.send(`Nuovo prezzo impostato: ${global.buy.price[global.instance]}`);
+                channelCMD.send(`Nuovo tempo impostato: ${global.buy.time[global.instance]}`);
             } else {
                 global.sell.item[global.instance] = options.getString('item');
                 global.sell.price[global.instance] = parseInt(options.getString('price'));
                 global.sell.time[global.instance] = parseInt(options.getString('time'));
 
                 await interaction.reply(`Nuovo item impostato: ${global.sell.item[global.instance]}`);
-                channel_CMD.send(`Nuovo prezzo impostato: ${global.sell.price[global.instance]}`);
-                channel_CMD.send(`Nuovo tempo impostato: ${global.sell.time[global.instance]}`);
+                channelCMD.send(`Nuovo prezzo impostato: ${global.sell.price[global.instance]}`);
+                channelCMD.send(`Nuovo tempo impostato: ${global.sell.time[global.instance]}`);
             }
-            channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1} tipo: ${global.trackerType}`);
+            channelCMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1} tipo: ${global.trackerType}`);
         break;
         case 'help':
             await interaction.reply('Se non sai come far partire il bot segui i seguenti step:');
-            channel_CMD.send('1-Imposta il bot con le informazioni dell\'item da tracciare usando /set-program-sell o /set-program-buy');
-            channel_CMD.send('2-Se non conosci gli ID degli item della skyblock vai su: https://api.hypixel.net/skyblock/bazaar per trovare l\'item corretto');
-            channel_CMD.send('3-Imposta il prezzo e ogni quanto deve essere tracciato, ricordati che il tempo é in ms');
-            channel_CMD.send('4-Utilizza i comandi /start-program-sell o /start-program-buy per far partire il bot');
-            channel_CMD.send('5-Per fermare i programmi in esecuzione fai /stop-programs');
-            channel_CMD.send('6-Utilizza /toggle-dm per abilitare o disabilitare i dm con true o false');
-            channel_CMD.send('7-Per impostare il destinatario dei DM usa /set-dm ed inserisci l\'ID del destinatario');
-            channel_CMD.send('8-Usa /info per sapere informazioni sulle impostazioni attuali del bot');
-            channel_CMD.send('9-Usa /select, seguito dal numero dell\'instance per selezionare una instance');
+            channelCMD.send('1-Imposta il bot con le informazioni dell\'item da tracciare usando /set-program-sell o /set-program-buy');
+            channelCMD.send('2-Se non conosci gli ID degli item della skyblock vai su: https://api.hypixel.net/skyblock/bazaar per trovare l\'item corretto');
+            channelCMD.send('3-Imposta il prezzo e ogni quanto deve essere tracciato, ricordati che il tempo é in ms');
+            channelCMD.send('4-Utilizza i comandi /start-program-sell o /start-program-buy per far partire il bot');
+            channelCMD.send('5-Per fermare i programmi in esecuzione fai /stop-programs');
+            channelCMD.send('6-Utilizza /toggle-dm per abilitare o disabilitare i dm con true o false');
+            channelCMD.send('7-Per impostare il destinatario dei DM usa /set-dm ed inserisci l\'ID del destinatario');
+            channelCMD.send('8-Usa /info per sapere informazioni sulle impostazioni attuali del bot');
+            channelCMD.send('9-Usa /select, seguito dal numero dell\'instance per selezionare una instance');
         break;
         case 'info':
         break;
@@ -164,7 +164,7 @@ client.on('interactionCreate', async (interaction) => {
 
                     await interaction.reply(`I messaggi DM sono impostati su: ${global.sell.toggleDM[global.instance]}`);
                 }
-                channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1}`);
+                channelCMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance + 1}`);
             } else {
                 await interaction.reply('Il parametro inserito non é valido');
             }
@@ -179,7 +179,7 @@ client.on('interactionCreate', async (interaction) => {
 
                 await interaction.reply(`I messaggi DM verranno inviati a: ${global.sell.userID[global.instance]}`);
             }
-            channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
+            channelCMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
         break;
         case 'select':
             if ((options.getString('type') === 'buy' || options.getString('type') === 'sell') && parseInt(options.getString('instance')) > 0 && parseInt(options.getString('instance')) <= global.totalInstances) {

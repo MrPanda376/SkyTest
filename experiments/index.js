@@ -15,9 +15,9 @@ client.once('ready', () => {
 
 
 
-/*
 
-TEST EMBEDS
+
+//TEST EMBEDS
 
 const exampleEmbed = {
     color: 0xff7300,
@@ -68,33 +68,9 @@ const exampleEmbed = {
     },
 };
 
-*/
 
 
 
-
-
-
-/*
-TEST OBJECTS
-
-Per vedere se si puo modificare un oggetto const (si può)
-
-const prova1 = {
-    "test": true,
-    "prova": false,
-}
-
-prova1.test = 1;
-prova1.prova = 0;
-prova1.ciao = 2;
-
-
-console.log(prova1.test);
-console.log(prova1.prova);
-console.log(prova1.ciao);
-
-*/
 
 
 
@@ -113,7 +89,6 @@ client.on('interactionCreate', async (interaction) => {
         
         //channel_CMD.send({ embeds: [exampleEmbed] });
 
-        main();
     } else if (commandName === 'save-now') {
         await interaction.reply('Variabili salvate con successo!');
         manualSave();
@@ -121,110 +96,3 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 client.login(token);
-
-
-
-
-
-
-
-
-/*
-
-COME SALVARE E RECUPERARE UN ARRAY
-
-LETTURA
-
-let prova = [];
-
-if (fs.existsSync('variables.json')) {
-    // Leggi i dati dal file
-    fs.readFile('variables.json', 'utf-8', (err, data) => {
-        if (err) {
-            console.error('Si è verificato un errore durante la lettura delle variabili:', err);
-          } else {
-            try {
-              const savedVariables = JSON.parse(data);
-
-              // Assegna i valori alle variabili
-              prova = savedVariables.prova;
-    
-              console.log('Variabili recuperate con successo.');
-            } catch (error) {
-              console.error('Si è verificato un errore durante il parsing dei dati JSON:', error);
-            }
-        }
-    });
-} else {
-  console.log('Il file variables.json non esiste. Le variabili non sono state recuperate.');
-};
-
-SALVATAGGIO
-
-async function manualSave() {
-    prova = [1, 2, 3];
-    // Salva tutte le variabili in un oggetto
-    const variablesToSave = {
-        prova,
-    };
-          
-    // Converti l'oggetto in una stringa JSON
-    const dataToSave = JSON.stringify(variablesToSave, null, 2);
-          
-    // Scrivi la stringa JSON in un file
-    fs.writeFileSync('variables.json', dataToSave, 'utf-8', (err) => {
-        if (err) {
-          console.error('Si è verificato un errore durante il salvataggio delle variabili:', err);
-      } else {
-          console.log('Variabili salvate con successo.');
-        }
-    });
-};
-
-*/
-
-
-
-
-
-
-
-
-
-
-//FIX #1
-
-async function main() {
-    while (true) {
-        sellProgramStatus_1 = 'active';
-
-        const outputFilePath = 'output.txt';
-        await saveDataToFile(outputFilePath);
-
-        const filePath = 'output.txt';
-        const nameToSearch = "STOCK_OF_STONKS"; // Oggetto da cercare
-
-        const context = await searchNameInFile(filePath, nameToSearch);
-
-        const valueToFind = 'pricePerUnit'; // Valore che viene cercato in function.js da cambiare solo se si cambia cosa si vuole cercare
-        const value = findValue([context], valueToFind); //CHANGE QUI
-
-        const formattedValue = value.toLocaleString();
-
-        // Invia il messaggio formattato su Discord
-        const channel = client.channels.cache.get('1228448453672046722'); // Sostituisci 'ID_DEL_CANALE' con l'ID del canale di destinazione
-
-
-        const maxValue = parseInt("100000000"); // DA NOTARE IL PARSE INT PER LA CONVERSIONE IN NUMERO FIX #1
-        const formattedMaxValue = maxValue.toLocaleString(); // Valore maxValue formattato con i punti
-
-        if (value > maxValue) {
-            channel.send(`${nameToSearch} - VENDI TUTTO ORA!!! @everyone - SellPrice: ${formattedValue} - Set to: ${formattedMaxValue}`); // Output se prezzo conveniente
-        } else {
-            channel.send(`${nameToSearch} - Non vendere - SellPrice: ${formattedValue} - Set to: ${formattedMaxValue}`); // Output se prezzo NON conveniente
-        }
-
-        await sleep(20000); // Ritardo tra le esecuzioni
-    };
-};
-
