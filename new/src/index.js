@@ -9,7 +9,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 let global = {
     "instance": 0, // Ricordarsi che é sempre instance - 1 pk stiamo lavorando con gli array
-    "Total_Instances": 1,
+    "totalInstances": 1,
     "trackerType": 'buy',
     "stopCommand": 0,
     "timeCheckStop": 10000,
@@ -65,7 +65,7 @@ client.once('ready', () => {
     // Resume of the programs that were active before the bot crashed/stopped
     setTimeout(() => {
         let temp = global;
-        for (let i = 0; i < global.Total_Instances; i++) {
+        for (let i = 0; i < global.totalInstances; i++) {
             if (global.buy.status[i] === 'on') {
                 temp.instance = i;
                 temp.trackerType = 'buy';
@@ -182,7 +182,7 @@ client.on('interactionCreate', async (interaction) => {
             channel_CMD.send(`I seguenti valori sono stati impostati nell\'instance: ${global.instance}`);
         break;
         case 'select':
-            if (options.getString('type') === 'buy' || options.getString('type') === 'sell') {
+            if ((options.getString('type') === 'buy' || options.getString('type') === 'sell') && parseInt(options.getString('instance')) > 0 && parseInt(options.getString('instance')) <= global.totalInstances) {
                 global.instance = parseInt(options.getString('instance')) - 1;
                 global.trackerType = options.getString('type');
 
