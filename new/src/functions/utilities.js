@@ -21,6 +21,10 @@ async function checkStop(global, local_ID, time) {
     while (global.stopCommand !== local_ID) {
         await sleep(time);
     }
+    return true;
+}
+
+async function cooldown() {
     return false;
 }
 

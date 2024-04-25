@@ -12,6 +12,7 @@ let global = {
     "Total_Instances": 1,
     "trackerType": 'buy',
     "stopCommand": 0,
+    "timeCheckStop": 10000,
     "timeAutoSave": 10000,
     "channel": '1228448453672046722',
     "buy": {
