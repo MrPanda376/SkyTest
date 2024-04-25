@@ -207,24 +207,32 @@ client.on('interactionCreate', async (interaction) => {
             } else {
                 // Cooldown to wait for the checkStop function to stop the tracker
                 global.onCooldown = true;
-                cooldown(timeCheckStop).then((result) => {
+                cooldown(global.timeCheckStop).then((result) => {
                     global.onCooldown = result;
                 }).catch((error) => {
                     console.error(error);
                 });
 
                 if (global.trackerType === 'buy') {
-                    global.stopCommand = global.buy.ID[global.instance];
+                    if (global.buy.status[global.instance] === 'off') {
+                        await interaction.reply('Non puoi fermare un tracker che non é stato startato');
+                    } else {
+                        global.stopCommand = global.buy.ID[global.instance];
     
-                    global.buy.ID[global.instance] = randomID(1, 10000, global);
+                        global.buy.ID[global.instance] = randomID(1, 10000, global);
     
-                    global.buy.status[global.instance] = 'off';
+                        global.buy.status[global.instance] = 'off';
+                    }
                 } else {
-                    global.stopCommand = global.sell.ID[global.instance];
+                    if (global.sell.status[global.instance] === 'off') {
+                        await interaction.reply('Non puoi fermare un tracker che non é stato startato');
+                    } else {
+                        global.stopCommand = global.sell.ID[global.instance];
     
-                    global.sell.ID[global.instance] = randomID(1, 10000, global);
-    
-                    global.sell.status[global.instance] = 'off';
+                        global.sell.ID[global.instance] = randomID(1, 10000, global);
+        
+                        global.sell.status[global.instance] = 'off';
+                    }
                 }
     
                 await interaction.reply(`Il tracker nell\'instance: ${global.instance + 1} di tipo: ${global.trackerType} é stato fermato!`);
