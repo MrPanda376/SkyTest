@@ -58,10 +58,11 @@ client.on('interactionCreate', async (interaction) => {
     let selected
 
     if (commandName === 'start_tracker') {
-        const reply = await interaction.reply({ embeds: [exampleEmbed], components: [row] });
+        const message = await interaction.reply({ embeds: [exampleEmbed], components: [row] });
 
-        const collector = reply.createMessageComponentCollector({
+        const collector = message.createMessageComponentCollector({
             componentType: ComponentType.StringSelect,
+            filter: (i) => i.user.id === interaction.user.id,
             time: 10000,
         });
 
@@ -71,7 +72,7 @@ client.on('interactionCreate', async (interaction) => {
         });
 
         collector.on('end', () => {
-            reply.edit({ components: [] });
+            message.edit({ components: [] });
             console.log(selected);
         });
     }
