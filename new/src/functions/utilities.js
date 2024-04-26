@@ -1,3 +1,5 @@
+const cooldowns = new Map(); // Object to store the timestamps of the last command usage
+
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -24,14 +26,22 @@ async function checkStop(global, local_ID, time) {
     return true;
 }
 
-async function cooldown(time) {
-    await sleep(time);
-    return false;
+function isCommandOnCooldown(commandName, cooldownTime) { // Check if a command is still on cooldown
+    const lastUsageTimestamp = cooldowns.get(commandName); // Get the timestamp of the last command usage
+    if (!lastUsageTimestamp || Date.now() - lastUsageTimestamp > cooldownTime) { // If the command hasn't been used yet or the cooldown has expired, return false
+        return false;
+    }
+    return true; // The command is still on cooldown
+}
+
+function setCommandCooldown(commandName) { // Set the cooldown for a command
+    cooldowns.set(commandName, Date.now()); // Set the current timestamp as the last command usage
 }
 
 module.exports = {
     sleep,
     randomID,
     checkStop,
-    cooldown
+    isCommandOnCooldown,
+    setCommandCooldown
 };
