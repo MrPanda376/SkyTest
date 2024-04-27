@@ -1,7 +1,5 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const { token, clientId, guildId } = require('../config.json');
+const { SlashCommandBuilder, REST, Routes } = require('discord.js');
+const { token, clientId, guildId } = require('../../data/config.json');
 
 const commands = [
     new SlashCommandBuilder()
@@ -14,7 +12,7 @@ const commands = [
         .toJSON(),
     new SlashCommandBuilder()
         .setName('set_tracker')
-        .setDescription('Impostazioni dei tracker')
+        .setDescription('Impostazioni del tracker')
         .addStringOption(option => option
             .setName('item')
             .setDescription('Inserisci l\'item')
@@ -29,22 +27,6 @@ const commands = [
             .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
-        .setName('help')
-        .setDescription('Mostra la guida del bot')
-        .toJSON(),
-    new SlashCommandBuilder()
-        .setName('info')
-        .setDescription('Visualizza tutte le impostazioni attuali del bot')
-        .toJSON(),
-    new SlashCommandBuilder()
-        .setName('toggle_dm')
-        .setDescription('Attiva o Disattiva i DM')
-        .addStringOption(option => option
-            .setName('boolean_value')
-            .setDescription('Inserisci true o false')
-            .setRequired(true))
-        .toJSON(),
-    new SlashCommandBuilder()
         .setName('select')
         .setDescription('Imposta l\'instance del bot')
         .addStringOption(option => option
@@ -54,6 +36,14 @@ const commands = [
         .addStringOption(option => option
             .setName('type')
             .setDescription('Inserisci il tipo di instance (buy/sell)')
+            .setRequired(true))
+        .toJSON(),
+    new SlashCommandBuilder()
+        .setName('toggle_dm')
+        .setDescription('Attiva o Disattiva i DM')
+        .addStringOption(option => option
+            .setName('boolean_value')
+            .setDescription('Inserisci true o false')
             .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
@@ -76,15 +66,26 @@ const commands = [
             .setDescription('Ogni quanto tempo devono essere salvate le impostazioni (in ms)')
             .setRequired(true))
         .toJSON(),
+    new SlashCommandBuilder()
+        .setName('help')
+        .setDescription('Mostra la guida del bot')
+        .toJSON(),
+    new SlashCommandBuilder()
+        .setName('info')
+        .setDescription('Visualizza tutte le impostazioni attuali del bot')
+        .toJSON(),
 ];
 
-const rest = new REST({ version: '9' }).setToken(token);
+const rest = new REST().setToken(token);
 
 (async () => {
     try {
         console.log('Inizio la registrazione dei comandi...');
 
-        await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
+        await rest.put(
+            Routes.applicationCommands(clientId),
+            { body: commands },
+        );
 
         console.log('Comandi registrati con successo!');
     } catch (error) {
