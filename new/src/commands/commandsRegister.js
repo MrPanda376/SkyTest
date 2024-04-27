@@ -67,12 +67,12 @@ const commands = [
             .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
-        .setName('help')
-        .setDescription('Mostra la guida del bot')
-        .toJSON(),
-    new SlashCommandBuilder()
         .setName('info')
         .setDescription('Visualizza tutte le impostazioni attuali del bot')
+        .toJSON(),
+    new SlashCommandBuilder()
+        .setName('help')
+        .setDescription('Mostra la guida del bot')
         .toJSON(),
 ];
 
