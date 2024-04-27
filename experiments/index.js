@@ -71,36 +71,40 @@ client.on('interactionCreate', async (interaction) => {
         message = await interaction.reply({ embeds: [exampleEmbed], components: [row, row1] });
     }
 
-    const collector = message.createMessageComponentCollector({
+    const menu = message.createMessageComponentCollector({
         componentType: ComponentType.StringSelect,
         filter: (i) => i.user.id === interaction.user.id,
         time: 10000,
     });
 
-    collector.on('collect', (interaction) => {
+    menu.on('collect', (interaction) => {
         interaction.reply({ content: `You selected: ${interaction.values[0]}`, ephemeral: true});
     });
 
-    collector.on('end', () => {
+    menu.on('end', () => {
         message.edit({ components: [] });
     });
 
-	const prova = message.createMessageComponentCollector({
+	const button = message.createMessageComponentCollector({
 		componentType: ComponentType.Button,
 		filter: (i) => i.user.id === interaction.user.id,
         time: 10000,
 	});
 
-	prova.on('collect', (interaction) => {
+	button.on('collect', (interaction) => {
+
 		const { customId } = interaction;
+
         if (customId === 'confirm') {
 			interaction.reply({ content: 'confirm', ephemeral: true});
+			message.edit({ components: [] });
 		} else if (customId === 'cancel') {
 			interaction.reply({ content: 'cancel', ephemeral: true});
+			message.edit({ components: [] });
 		}
     });
 
-    collector.on('end', () => {
+    button.on('end', () => {
         
     });
 });
