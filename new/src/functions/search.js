@@ -23,9 +23,9 @@ function searchNameInFile(filePath, name, trackerType) {
                         if (count >= 2) { // Dopo quante volte che trova nameToSearch si deve fermare es: 2
                             let context;
                             if (trackerType === 'buy') {
-                                context = words.slice(foundIndex + 215, foundIndex + 218); // Quante parole dopo nameToSearch si deve salvare es: 215/217
+                                context = words.slice(foundIndex + 215, foundIndex + 218); // Quante parole dopo nameToSearch si deve salvare es: 215/218
                             } else {
-                                context = words.slice(foundIndex + 1, foundIndex + 19); // Quante parole dopo nameToSearch si deve salvare es: 1/19
+                                context = words.slice(foundIndex + 4, foundIndex + 7); // Quante parole dopo nameToSearch si deve salvare es: 4/7
                             }
                             resolve(context);
                             return;

@@ -1,8 +1,8 @@
 {
   "instance": 0,
   "totalInstances": 1,
-  "trackerType": "sell",
-  "stopCommand": 2408,
+  "trackerType": "buy",
+  "stopCommand": 8091,
   "timeCheckStop": 10000,
   "cooldownTime": 10000,
   "timeAutoSave": 10000,
@@ -30,7 +30,7 @@
       "1228448453672046722"
     ],
     "ID": [
-      7895
+      4480
     ]
   },
   "sell": {
@@ -56,7 +56,7 @@
       "1228448453672046722"
     ],
     "ID": [
-      4721
+      9537
     ]
   }
 }
