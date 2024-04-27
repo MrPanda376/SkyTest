@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Interaction, ModalSubmitInteraction } = require("discord.js");
+const { Client, GatewayIntentBits } = require("discord.js");
 const fs = require('fs');
 const { token } = require('../data/config.json');
 const { Bazaar_Tracker } = require('./functions/botFeatures');

@@ -84,18 +84,25 @@ client.on('interactionCreate', async (interaction) => {
     collector.on('end', () => {
         message.edit({ components: [] });
     });
-});
 
-client.on('interactionCreate', async (interaction) => {
-    if (!interaction.isButton()) return;
+	const prova = message.createMessageComponentCollector({
+		componentType: ComponentType.Button,
+		filter: (i) => i.user.id === interaction.user.id,
+        time: 10000,
+	});
 
-    const { customId } = interaction;
-    
-    if (customId === 'confirm') {
-        interaction.reply({ content: 'confirm', ephemeral: true});
-    } else if (customId === 'cancel') {
-        interaction.reply({ content: 'cancel', ephemeral: true});
-    }
+	prova.on('collect', (interaction) => {
+		const { customId } = interaction;
+        if (customId === 'confirm') {
+			interaction.reply({ content: 'confirm', ephemeral: true});
+		} else if (customId === 'cancel') {
+			interaction.reply({ content: 'cancel', ephemeral: true});
+		}
+    });
+
+    collector.on('end', () => {
+        
+    });
 });
 
 client.login(token);
