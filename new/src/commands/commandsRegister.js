@@ -83,7 +83,7 @@ const rest = new REST().setToken(token);
         console.log('Inizio la registrazione dei comandi...');
 
         await rest.put(
-            Routes.applicationCommands(clientId),
+            Routes.applicationGuildCommands(clientId, guildId),
             { body: commands },
         );
 

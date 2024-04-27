@@ -186,12 +186,12 @@ const setTrackerEmbed = new EmbedBuilder()
 	.setFooter({ text: 'SkyFlip', iconURL: 'https://imgur.com/rBYGryR.png' });
 
 const setTrackerConfirm = new ButtonBuilder()
-	.setCustomId('setTrackerConfirm')
+	.setCustomId('confirm')
 	.setLabel('Confirm')
 	.setStyle(ButtonStyle.Success);
 
 const setTrackerCancel = new ButtonBuilder()
-	.setCustomId('setTrackerCancel')
+	.setCustomId('cancel')
 	.setLabel('Cancel')
 	.setStyle(ButtonStyle.Danger);
 
