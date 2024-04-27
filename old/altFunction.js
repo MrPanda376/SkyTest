@@ -22,7 +22,7 @@ function altSearchNameInFile(filePath, name) {
               foundIndex = i;
               count++;
               if (count >= 2) { // Dopo quante volte che trova nameToSearch si deve fermare es: 2
-                const context = words.slice(foundIndex + 215, foundIndex + 217); // Quante parole dopo nameToSearch si deve salvare es: 215/217
+                const context = words.slice(foundIndex + 215, foundIndex + 218); // Quante parole dopo nameToSearch si deve salvare es: 215/218
                 resolve(context);
                 return;
               }
@@ -42,7 +42,20 @@ function altSearchNameInFile(filePath, name) {
     for (const sublist of variable) {
       const index = sublist.indexOf(value);
       if (index !== -1 && index < sublist.length - 1) {
-        const nextValue = sublist[index + 1]; // Dopo quante parole rispetto a valueToFind deve cercare es: 1
+        let nextValue; // MOLTI CHANGE DA QUI IN POI
+        if (sublist[index + 2].includes('E')) { // Controlla se é presente una 'E' all'interno del prezzo
+  
+          const stringa_iniziale = sublist[index + 1] + "." + sublist[index + 2]; // Crea la stringa di partenza es: 1.99320246E7
+            
+          const [decimale_stringa, esponente_stringa] = stringa_iniziale.split('E'); // Divide la stringa in: 1.99320246 (decimale) e 7 (esponente)
+            
+          const esponente = parseInt(esponente_stringa); // Conversione in intero
+          const decimale = parseFloat(decimale_stringa); // Conversione in float
+  
+          nextValue = decimale * Math.pow(10, esponente); // Calcola il prezzo reale
+        } else {
+          nextValue = parseInt(sublist[index + 1]); // Dopo quante parole rispetto a valueToFind deve cercare es: 1
+        }
         return nextValue;
       }
     }

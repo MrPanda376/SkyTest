@@ -526,7 +526,7 @@ async function main_1_sell() {
 
         let User = await client.users.fetch(UserId_1);
         
-        const maxValue = priceSellCollector_1; // Valore da superare per fare in modo che il bot pinga tutti
+        const maxValue = parseInt(priceSellCollector_1); // Valore da superare per fare in modo che il bot pinga tutti
         const formattedMaxValue = maxValue.toLocaleString(); // Valore maxValue formattato con i punti
 
         if (value > maxValue) {
@@ -568,7 +568,7 @@ async function altMain_1_buy() {
 
         let User = await client.users.fetch(UserId_1);
         
-        const maxValue = priceBuyCollector_1; // Valore da superare per fare in mode che il bot pinga tutti
+        const maxValue = parseInt(priceBuyCollector_1); // Valore da superare per fare in mode che il bot pinga tutti
         const formattedMaxValue = maxValue.toLocaleString(); // Valore maxValue formattato con i punti
 
         if (value < maxValue) {
@@ -612,7 +612,7 @@ async function main_2_sell() {
 
         let User = await client.users.fetch(UserId_2);
         
-        const maxValue = priceSellCollector_2; // Valore da superare per fare in modo che il bot pinga tutti
+        const maxValue = parseInt(priceSellCollector_2); // Valore da superare per fare in modo che il bot pinga tutti
         const formattedMaxValue = maxValue.toLocaleString(); // Valore maxValue formattato con i punti
 
         if (value > maxValue) {
@@ -654,7 +654,7 @@ async function altMain_2_buy() {
 
         let User = await client.users.fetch(UserId_2);
         
-        const maxValue = priceBuyCollector_2; // Valore da superare per fare in mode che il bot pinga tutti
+        const maxValue = parseInt(priceBuyCollector_2); // Valore da superare per fare in mode che il bot pinga tutti
         const formattedMaxValue = maxValue.toLocaleString(); // Valore maxValue formattato con i punti
 
         if (value < maxValue) {
@@ -698,7 +698,7 @@ async function main_3_sell() {
 
         let User = await client.users.fetch(UserId_3);
         
-        const maxValue = priceSellCollector_3; // Valore da superare per fare in modo che il bot pinga tutti
+        const maxValue = parseInt(priceSellCollector_3); // Valore da superare per fare in modo che il bot pinga tutti
         const formattedMaxValue = maxValue.toLocaleString(); // Valore maxValue formattato con i punti
 
         if (value > maxValue) {
@@ -740,7 +740,7 @@ async function altMain_3_buy() {
 
         let User = await client.users.fetch(UserId_3);
         
-        const maxValue = priceBuyCollector_3; // Valore da superare per fare in mode che il bot pinga tutti
+        const maxValue = parseInt(priceBuyCollector_3); // Valore da superare per fare in mode che il bot pinga tutti
         const formattedMaxValue = maxValue.toLocaleString(); // Valore maxValue formattato con i punti
 
         if (value < maxValue) {
