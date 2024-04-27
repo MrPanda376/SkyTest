@@ -7,7 +7,7 @@ async function autoSave(timeAutoSave, variablesToSave) {
     while (true) {
         // Converti l'oggetto in una stringa JSON
         const dataToSave = JSON.stringify(variablesToSave, null, 2);
-          
+        
         // Scrivi la stringa JSON in un file
         fs.writeFileSync('../data/variables.json', dataToSave, 'utf-8', (err) => {
             if (err) {
