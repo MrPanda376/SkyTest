@@ -60,10 +60,9 @@ client.once('ready', () => {
             }
         });
     } else {
-        console.log('Il file variables.json non esiste. Le variabili non sono state recuperate.');
+        console.log('Il file variables.json non esiste, quindi le variabili non sono state recuperate.');
     }
-    // Resume of the programs that were active before the bot crashed/stopped
-    setTimeout(() => {
+    setTimeout(() => { // Resume of the programs that were active before the bot crashed/stopped
         let temp = global;
         for (let i = 0; i < global.totalInstances; i++) {
             if (global.buy.status[i] === 'on') {
@@ -85,6 +84,7 @@ client.once('ready', () => {
                 }
             }
         }
+        autoSave(global.timeAutoSave, global); // Inizio salvataggio automatico delle variabili
     }, 1000);
 });
 
@@ -92,8 +92,6 @@ client.once('ready', () => {
 
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) return;
-
-    autoSave(global.timeAutoSave, global); // Inizio salvataggio automatico delle variabili
 
     const { commandName } = interaction;
     const options = interaction.options;
