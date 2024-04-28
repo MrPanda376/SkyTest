@@ -194,8 +194,12 @@ client.on('interactionCreate', async (interaction) => {
                 await interaction.reply(`E\' stata creata l\'instance: ${global.totalInstances}`);
             } else {
                 if (global.buy.status[global.totalInstances - 1] === 'off' && global.sell.status[global.totalInstances - 1] === 'off') {
-                    await interaction.reply(`Hai eliminato l\'instance: ${global.totalInstances}`);
-                    global.totalInstances -= 1;
+                    if (global.totalInstances !== 1) {
+                        await interaction.reply(`Hai eliminato l\'instance: ${global.totalInstances}`);
+                        global.totalInstances -= 1;
+                    } else {
+                        await interaction.reply('Non puoi eliminare la prima instance.');
+                    }
                 } else {
                     await interaction.reply('Non puoi eliminare un\'instance con dei tracker attivi, fermali e riprova.');
                 }
