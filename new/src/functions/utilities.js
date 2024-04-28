@@ -10,7 +10,7 @@ function randomID(min, max, global) {
     do {
         exist = false
         ID = Math.floor(Math.random() * (max - min + 1)) + min;
-        for (let i = 0; i < global.Total_Instances; i++) {
+        for (let i = 0; i < global.totalInstances; i++) {
             if (global.buy.ID[i] === ID || global.sell.ID[i] === ID) {
                 exist = true;
             }

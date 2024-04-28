@@ -39,6 +39,22 @@ const commands = [
             .setRequired(true))
         .toJSON(),
     new SlashCommandBuilder()
+        .setName('instance')
+        .setDescription('Crea/Elimina un\'instance')
+        .addStringOption(option => option
+            .setName('action')
+            .setDescription('Inserisci \'create\' o \'delete\' per creare o eliminare un\'instance')
+            .setRequired(true))
+        .addStringOption(option => option
+            .setName('buy_channel_ID')
+            .setDescription('Inserisci l\'ID del canale per il buy tracker (da inserire solo se si sta creando un\'instance)')
+            .setRequired(false))
+        .addStringOption(option => option
+            .setName('sell_channel_ID')
+            .setDescription('Inserisci l\'ID del canale per il sell tracker (da inserire solo se si sta creando un\'instance)')
+            .setRequired(false))
+        .toJSON(),
+    new SlashCommandBuilder()
         .setName('toggle_dm')
         .setDescription('Attiva o Disattiva i DM')
         .addStringOption(option => option

@@ -180,6 +180,27 @@ client.on('interactionCreate', async (interaction) => {
                 await interaction.reply('I parametri inseriti non sono validi.');
             }
         break;
+        case 'instance':
+            if (options.getString('action') === 'create') {
+                global.totalInstances += 1;
+                // Buy
+                global.buy.status[global.totalInstances - 1] = 'off';
+                global.buy.channel[global.totalInstances - 1] = options.getString('buy_channel_ID');
+                global.buy.ID[global.totalInstances - 1] = randomID(1, 10000, global);
+                // Sell
+                global.sell.status[global.totalInstances - 1] = 'off';
+                global.sell.channel[global.totalInstances - 1] = options.getString('sell_channel_ID');
+                global.sell.ID[global.totalInstances - 1] = randomID(1, 10000, global);
+                await interaction.reply(`E\' stata creata l\'instance: ${global.totalInstances}`);
+            } else {
+                if (global.buy.status[global.totalInstances - 1] === 'off' && global.sell.status[global.totalInstances - 1] === 'off') {
+                    await interaction.reply(`Hai eliminato l\'instance: ${global.totalInstances}`);
+                    global.totalInstances -= 1;
+                } else {
+                    await interaction.reply('Non puoi eliminare un\'instance con dei tracker attivi, fermali e riprova.');
+                }
+            }
+        break;
         case 'toggle_dm':
             if (options.getString('boolean-value') === 'true' || options.getString('boolean-value') === 'false') {
                 if (global.trackerType === 'buy') {
