@@ -185,11 +185,11 @@ client.on('interactionCreate', async (interaction) => {
                 global.totalInstances += 1;
                 // Buy
                 global.buy.status[global.totalInstances - 1] = 'off';
-                global.buy.channel[global.totalInstances - 1] = options.getString('buy_channel_ID');
+                global.buy.channel[global.totalInstances - 1] = options.getString('buy_channel_id');
                 global.buy.ID[global.totalInstances - 1] = randomID(1, 10000, global);
                 // Sell
                 global.sell.status[global.totalInstances - 1] = 'off';
-                global.sell.channel[global.totalInstances - 1] = options.getString('sell_channel_ID');
+                global.sell.channel[global.totalInstances - 1] = options.getString('sell_channel_id');
                 global.sell.ID[global.totalInstances - 1] = randomID(1, 10000, global);
                 await interaction.reply(`E\' stata creata l\'instance: ${global.totalInstances}`);
             } else {

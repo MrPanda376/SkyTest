@@ -46,11 +46,11 @@ const commands = [
             .setDescription('Inserisci \'create\' o \'delete\' per creare o eliminare un\'instance')
             .setRequired(true))
         .addStringOption(option => option
-            .setName('buy_channel_ID')
+            .setName('buy_channel_id')
             .setDescription('Inserisci l\'ID del canale per il buy tracker (da inserire solo se si sta creando un\'instance)')
             .setRequired(false))
         .addStringOption(option => option
-            .setName('sell_channel_ID')
+            .setName('sell_channel_id')
             .setDescription('Inserisci l\'ID del canale per il sell tracker (da inserire solo se si sta creando un\'instance)')
             .setRequired(false))
         .toJSON(),
