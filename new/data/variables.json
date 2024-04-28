@@ -1,8 +1,8 @@
 {
-  "instance": 1,
-  "totalInstances": 2,
-  "trackerType": "sell",
-  "stopCommand": 8091,
+  "instance": 0,
+  "totalInstances": 1,
+  "trackerType": "buy",
+  "stopCommand": 4480,
   "timeCheckStop": 10000,
   "cooldownTime": 10000,
   "timeAutoSave": 10000,
@@ -40,12 +40,12 @@
     ],
     "channel": [
       "1228448453672046722",
-      "1234100428720050228",
+      null,
       null
     ],
     "ID": [
-      4480,
-      4140,
+      2733,
+      547,
       3224
     ]
   },
@@ -82,12 +82,12 @@
     ],
     "channel": [
       "1228448453672046722",
-      "1234100470746714196",
+      null,
       null
     ],
     "ID": [
       9537,
-      5180,
+      98,
       9283
     ]
   }
