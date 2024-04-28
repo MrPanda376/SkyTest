@@ -205,8 +205,12 @@ client.on('interactionCreate', async (interaction) => {
             } else {
                 if (global.buy.status[global.totalInstances - 1] === 'off' && global.sell.status[global.totalInstances - 1] === 'off') {
                     if (global.totalInstances !== 1) {
-                        await interaction.reply(`Hai eliminato l\'instance: ${global.totalInstances}`);
-                        global.totalInstances -= 1;
+                        if (global.instance !== global.totalInstances - 1) {
+                            await interaction.reply(`Hai eliminato l\'instance: ${global.totalInstances}`);
+                            global.totalInstances -= 1;
+                        } else {
+                            await interaction.reply('Non puoi eliminare l\'instance selezionata, seleziona un\'altra instance e riprova.');
+                        }
                     } else {
                         await interaction.reply('Non puoi eliminare la prima instance.');
                     }
