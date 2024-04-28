@@ -58,16 +58,16 @@ async function Bazaar_Tracker(global, client) {
 
         if (local.trackerType === 'buy') {
             if (price < setPrice) {
-                channel.send(`${local.item} - COMPRA ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo conveniente
+                channel.send(`${local.item} - COMPRA ORA!!! @everyone - BuyPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo conveniente
                 if (local.toggleDM) {
-                    user.send(`${local.item} - COMPRA ORA!!! @everyone - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`) // Messaggio nei DM
+                    user.send(`${local.item} - COMPRA ORA!!! @everyone - BuyPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`) // Messaggio nei DM
                         .catch(error => {
                             console.error('Errore durante l\'invio del messaggio nei DM:', error); // Errore durante l'invio del messaggio nei DM
                         }
                     )
                 }
             } else {
-                channel.send(`${local.item} - Non comprare - SellPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo NON conveniente
+                channel.send(`${local.item} - Non comprare - BuyPrice: ${formattedPrice} - Set to: ${formattedSetPrice}`); // Output se prezzo NON conveniente
             }
         } else {
             if (price > setPrice) {
