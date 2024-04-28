@@ -22,7 +22,7 @@ let global = {
         "time": [10000],
         "status": ['off'],
         "toggleDM": [false],
-        "userID": ['718011250839257099'],
+        "userID": ['1'],
         "channel": ['1228448453672046722'],
         "ID": [1],
     },
@@ -32,7 +32,7 @@ let global = {
         "time": [10000],
         "status": ['off'],
         "toggleDM": [false],
-        "userID": ['718011250839257099'],
+        "userID": ['1'],
         "channel": ['1228448453672046722'],
         "ID": [2],
     },
@@ -184,11 +184,21 @@ client.on('interactionCreate', async (interaction) => {
             if (options.getString('action') === 'create') {
                 global.totalInstances += 1;
                 // Buy
+                global.buy.item[global.totalInstances - 1] = 'N/D'
+                global.buy.price[global.totalInstances - 1] = 1;
+                global.buy.time[global.totalInstances - 1] = 10000;
                 global.buy.status[global.totalInstances - 1] = 'off';
+                global.buy.toggleDM[global.totalInstances - 1] = false;
+                global.buy.userID[global.totalInstances - 1] = '1';
                 global.buy.channel[global.totalInstances - 1] = options.getString('buy_channel_id');
                 global.buy.ID[global.totalInstances - 1] = randomID(1, 10000, global);
                 // Sell
+                global.sell.item[global.totalInstances - 1] = 'N/D'
+                global.sell.price[global.totalInstances - 1] = 1;
+                global.sell.time[global.totalInstances - 1] = 10000;
                 global.sell.status[global.totalInstances - 1] = 'off';
+                global.sell.toggleDM[global.totalInstances - 1] = false;
+                global.sell.userID[global.totalInstances - 1] = '1';
                 global.sell.channel[global.totalInstances - 1] = options.getString('sell_channel_id');
                 global.sell.ID[global.totalInstances - 1] = randomID(1, 10000, global);
                 await interaction.reply(`E\' stata creata l\'instance: ${global.totalInstances}`);
